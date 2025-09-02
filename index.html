@@ -14,7 +14,8 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <h2>Metal Streets Media</h2>
+                <img src="Assets/Metal%20Streets%20Initials.jpeg" alt="Metal Streets Media" class="logo-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <h2 class="logo-fallback" style="display: none;">MSM</h2>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
@@ -33,6 +34,11 @@
                     <a href="#contact" class="nav-link">Contact</a>
                 </li>
             </ul>
+            <div class="theme-toggle">
+                <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle dark mode">
+                    <i class="fas fa-sun" id="theme-icon"></i>
+                </button>
+            </div>
             <div class="hamburger">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -45,6 +51,10 @@
     <section id="home" class="hero">
         <div class="hero-container">
             <div class="hero-content">
+                <div class="hero-logo">
+                    <img src="Assets/Metal%20Streets%20Logo.jpeg" alt="Metal Streets Media" class="hero-logo-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                    <h2 class="hero-logo-fallback" style="display: none; color: white; font-size: 2rem; font-weight: 700;">Metal Streets Media</h2>
+                </div>
                 <h1 class="hero-title">Transform Your Business with Strategic Marketing</h1>
                 <p class="hero-subtitle">We help businesses grow through innovative digital marketing strategies, compelling brand storytelling, and data-driven results.</p>
                 <div class="hero-buttons">
@@ -110,6 +120,20 @@
                     <h3>Growth Marketing</h3>
                     <p>Scalable growth strategies to accelerate your business expansion and increase market share.</p>
                 </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Website Creation</h3>
+                    <p>Custom website development with modern design, responsive layouts, and optimal user experience for your business.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>App Development</h3>
+                    <p>Native and cross-platform mobile app development to engage your customers and expand your digital presence.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -124,7 +148,7 @@
                     <p>Our approach combines creativity with data-driven insights to create marketing campaigns that not only look great but also drive measurable business outcomes.</p>
                     <div class="stats">
                         <div class="stat">
-                            <h3>150+</h3>
+                            <h3>350+</h3>
                             <p>Happy Clients</p>
                         </div>
                         <div class="stat">
@@ -198,25 +222,25 @@
                         <i class="fas fa-envelope"></i>
                         <div>
                             <h3>Email</h3>
-                            <p>hello@metalstreetsmedia.com</p>
+                            <p>metalstreetmedia@gmail.com</p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-phone"></i>
                         <div>
                             <h3>Phone</h3>
-                            <p>+1 (555) 123-4567</p>
+                            <p>+91 8375881237</p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt"></i>
                         <div>
                             <h3>Location</h3>
-                            <p>New York, NY</p>
+                            <p>Delhi, India</p>
                         </div>
                     </div>
                 </div>
-                <form class="contact-form">
+                <form class="contact-form" id="contactForm">
                     <div class="form-group">
                         <input type="text" id="name" name="name" placeholder="Your Name" required>
                     </div>
@@ -224,12 +248,66 @@
                         <input type="email" id="email" name="email" placeholder="Your Email" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="company" name="company" placeholder="Company Name">
+                        <input type="tel" id="number" name="number" placeholder="Phone Number" required>
                     </div>
                     <div class="form-group">
-                        <textarea id="message" name="message" placeholder="Tell us about your project" rows="5" required></textarea>
+                        <select id="businessType" name="businessType" required>
+                            <option value="">Select Business Type</option>
+                            <option value="Startup">Startup</option>
+                            <option value="Small Business">Small Business</option>
+                            <option value="Medium Business">Medium Business</option>
+                            <option value="Large Corporation">Large Corporation</option>
+                            <option value="E-commerce">E-commerce</option>
+                            <option value="Service Business">Service Business</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
+                    <div class="form-group">
+                        <label class="services-label">Select Services Required (Choose Multiple):</label>
+                        <div class="services-checkboxes">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="digitalMarketing" name="services" value="Digital Marketing">
+                                <label for="digitalMarketing">Digital Marketing</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="brandStrategy" name="services" value="Brand Strategy">
+                                <label for="brandStrategy">Brand Strategy</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="socialMedia" name="services" value="Social Media Management">
+                                <label for="socialMedia">Social Media Management</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="contentCreation" name="services" value="Content Creation">
+                                <label for="contentCreation">Content Creation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="analytics" name="services" value="Analytics & Reporting">
+                                <label for="analytics">Analytics & Reporting</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="growthMarketing" name="services" value="Growth Marketing">
+                                <label for="growthMarketing">Growth Marketing</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="websiteCreation" name="services" value="Website Creation">
+                                <label for="websiteCreation">Website Creation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="appDevelopment" name="services" value="App Development">
+                                <label for="appDevelopment">App Development</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="fullPackage" name="services" value="Full Marketing Package">
+                                <label for="fullPackage">Full Marketing Package</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="other" name="services" value="Other">
+                                <label for="other">Other</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
                 </form>
             </div>
         </div>
@@ -240,13 +318,16 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Metal Streets Media</h3>
+                    <div class="footer-logo">
+                        <img src="Assets/Metal%20Streets%20Logo.jpeg" alt="Metal Streets Media" class="footer-logo-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                        <h3 class="footer-logo-fallback" style="display: none; color: var(--accent-primary);">Metal Streets Media</h3>
+                    </div>
                     <p>Strategic marketing solutions for modern businesses.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=61572703822283" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.instagram.com/metalstreetsmedia/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
                 <div class="footer-section">
@@ -254,8 +335,12 @@
                     <ul>
                         <li><a href="#services">Digital Marketing</a></li>
                         <li><a href="#services">Brand Strategy</a></li>
+                        <li><a href="#services">Social Media Management</a></li>
                         <li><a href="#services">Content Creation</a></li>
-                        <li><a href="#services">Analytics</a></li>
+                        <li><a href="#services">Analytics & Reporting</a></li>
+                        <li><a href="#services">Growth Marketing</a></li>
+                        <li><a href="#services">Website Creation</a></li>
+                        <li><a href="#services">App Development</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">

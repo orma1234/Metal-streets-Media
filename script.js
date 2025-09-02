@@ -1,3 +1,67 @@
+// Theme Management
+let currentTheme = localStorage.getItem('theme') || 'light';
+const themeToggleBtn = document.getElementById('theme-toggle-btn');
+const themeIcon = document.getElementById('theme-icon');
+
+// Initialize theme
+function initializeTheme() {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    updateThemeIcon();
+    
+    // Set initial navbar background
+    const navbar = document.querySelector('.navbar');
+    if (currentTheme === 'dark') {
+        navbar.style.background = 'rgba(26, 26, 26, 0.95)';
+    } else {
+        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+    }
+}
+
+// Toggle theme
+function toggleTheme() {
+    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    localStorage.setItem('theme', currentTheme);
+    updateThemeIcon();
+    
+    // Update navbar background immediately
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 100) {
+        if (currentTheme === 'dark') {
+            navbar.style.background = 'rgba(26, 26, 26, 0.98)';
+            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+        }
+    } else {
+        if (currentTheme === 'dark') {
+            navbar.style.background = 'rgba(26, 26, 26, 0.95)';
+            navbar.style.boxShadow = 'none';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            navbar.style.boxShadow = 'none';
+        }
+    }
+}
+
+// Update theme icon
+function updateThemeIcon() {
+    if (currentTheme === 'dark') {
+        themeIcon.className = 'fas fa-moon';
+    } else {
+        themeIcon.className = 'fas fa-sun';
+    }
+}
+
+// Theme toggle event listener
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', toggleTheme);
+}
+
+// Initialize theme on page load
+document.addEventListener('DOMContentLoaded', initializeTheme);
+
 // Mobile Navigation Toggle
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
@@ -31,11 +95,21 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+        if (currentTheme === 'dark') {
+            navbar.style.background = 'rgba(26, 26, 26, 0.98)';
+            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+        }
     } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.boxShadow = 'none';
+        if (currentTheme === 'dark') {
+            navbar.style.background = 'rgba(26, 26, 26, 0.95)';
+            navbar.style.boxShadow = 'none';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            navbar.style.boxShadow = 'none';
+        }
     }
 });
 
@@ -62,8 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Contact form handling
-const contactForm = document.querySelector('.contact-form');
+// Contact form handling with Formspree
+const contactForm = document.getElementById('contactForm');
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -72,12 +146,15 @@ if (contactForm) {
         const formData = new FormData(this);
         const name = formData.get('name');
         const email = formData.get('email');
-        const company = formData.get('company');
-        const message = formData.get('message');
+        const number = formData.get('number');
+        const businessType = formData.get('businessType');
+        
+        // Get multiple selected services
+        const selectedServices = formData.getAll('services');
         
         // Basic validation
-        if (!name || !email || !message) {
-            showNotification('Please fill in all required fields.', 'error');
+        if (!name || !email || !number || !businessType || selectedServices.length === 0) {
+            showNotification('Please fill in all required fields and select at least one service.', 'error');
             return;
         }
         
@@ -86,19 +163,56 @@ if (contactForm) {
             return;
         }
         
-        // Simulate form submission
-        const submitButton = this.querySelector('button[type="submit"]');
+        // Update button state
+        const submitButton = document.getElementById('submitBtn');
         const originalText = submitButton.textContent;
-        submitButton.textContent = 'Sending...';
+        submitButton.textContent = 'Submitting...';
         submitButton.disabled = true;
         
-        // Simulate API call
-        setTimeout(() => {
-            showNotification('Thank you for your message! We\'ll get back to you soon.', 'success');
-            this.reset();
-            submitButton.textContent = originalText;
-            submitButton.disabled = false;
-        }, 2000);
+        // Save to Google Drive CSV
+        saveToGoogleDriveCSV(name, email, number, businessType, selectedServices, submitButton, originalText);
+    });
+}
+
+
+
+// Function to save data to Google Drive CSV
+function saveToGoogleDriveCSV(name, email, number, businessType, selectedServices, submitButton, originalText) {
+    // Google Apps Script endpoint (you'll need to set up this script)
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzfMjXGJ-g7EHpA4ReF7k5Z-Lyy4ugQaPqMGQNtCWCvu1ha2EoIXyYC8a-3I7heYm346w/exec';
+    
+    // Prepare the data
+    const servicesList = selectedServices.join(', ');
+    const timestamp = new Date().toLocaleString();
+    
+    const formData = new FormData();
+    formData.append('timestamp', timestamp);
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('phone', number);
+    formData.append('businessType', businessType);
+    formData.append('services', servicesList);
+    
+    // Send to Google Apps Script
+    fetch(scriptURL, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            showNotification('Thank you! Your details have been saved to our database. We\'ll get back to you soon.', 'success');
+            document.getElementById('contactForm').reset();
+        } else {
+            throw new Error('Network response was not ok');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Sorry, there was an error saving your details. Please try again.', 'error');
+    })
+    .finally(() => {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
     });
 }
 
