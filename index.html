@@ -7,15 +7,254 @@
     <meta name="description" content="Professional marketing services including digital marketing, brand strategy, and growth solutions for businesses of all sizes.">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Fredoka+One&family=Bungee&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Inline animations for immediate effect -->
+    <style>
+        /* Immediate visible animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes rotateIn {
+            from {
+                opacity: 0;
+                transform: rotate(-10deg) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0deg) scale(1);
+            }
+        }
+        
+        /* Text reveal animations */
+        @keyframes textReveal {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+                filter: blur(5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+        
+        @keyframes textSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes textFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Apply animations immediately */
+        .hero-title {
+            animation: textReveal 1.2s ease-out 0.2s both;
+        }
+        
+        .hero-subtitle {
+            animation: textReveal 1.2s ease-out 0.4s both;
+        }
+        
+        .hero-buttons {
+            animation: slideInUp 1s ease-out 0.6s both;
+        }
+        
+        .hero-graphic {
+            animation: rotateIn 1.2s ease-out 0.8s both;
+        }
+        
+        /* Section headers */
+        .section-header h2 {
+            animation: textSlideIn 1s ease-out 0.2s both;
+        }
+        
+        .section-header p {
+            animation: textFadeIn 1s ease-out 0.4s both;
+        }
+        
+        /* Service card text */
+        .service-card h3 {
+            animation: textReveal 0.8s ease-out 0.3s both;
+        }
+        
+        .service-card p {
+            animation: textFadeIn 0.8s ease-out 0.5s both;
+        }
+        
+        /* About section text */
+        .about-text h2 {
+            animation: textSlideIn 1s ease-out 0.2s both;
+        }
+        
+        .about-text p {
+            animation: textFadeIn 1s ease-out 0.4s both;
+        }
+        
+        /* Stats text */
+        .stat h3 {
+            animation: textReveal 0.8s ease-out 0.3s both;
+        }
+        
+        .stat p {
+            animation: textFadeIn 0.8s ease-out 0.5s both;
+        }
+        
+        /* Portfolio text */
+        .portfolio-content h3 {
+            animation: textSlideIn 0.8s ease-out 0.3s both;
+        }
+        
+        .portfolio-content p {
+            animation: textFadeIn 0.8s ease-out 0.5s both;
+        }
+        
+        /* Contact text */
+        .contact-item h3 {
+            animation: textReveal 0.8s ease-out 0.3s both;
+        }
+        
+        .contact-item p {
+            animation: textFadeIn 0.8s ease-out 0.5s both;
+        }
+        
+        .service-card {
+            animation: scaleIn 0.8s ease-out both;
+        }
+        
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        .service-card:nth-child(4) { animation-delay: 0.4s; }
+        .service-card:nth-child(5) { animation-delay: 0.5s; }
+        .service-card:nth-child(6) { animation-delay: 0.6s; }
+        .service-card:nth-child(7) { animation-delay: 0.7s; }
+        .service-card:nth-child(8) { animation-delay: 0.8s; }
+        
+        /* Clean hover effects */
+        .service-card:hover {
+            transform: translateY(-4px);
+            transition: all 0.3s ease;
+        }
+        
+        .service-icon:hover {
+            transform: scale(1.1);
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        
+        /* Subtle text animations */
+        @keyframes textGlow {
+            0%, 100% {
+                text-shadow: 0 0 5px rgba(59, 130, 246, 0.2);
+            }
+            50% {
+                text-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+            }
+        }
+        
+        /* Staggered text animations for service cards */
+        .service-card:nth-child(1) h3 { animation-delay: 0.1s; }
+        .service-card:nth-child(2) h3 { animation-delay: 0.2s; }
+        .service-card:nth-child(3) h3 { animation-delay: 0.3s; }
+        .service-card:nth-child(4) h3 { animation-delay: 0.4s; }
+        .service-card:nth-child(5) h3 { animation-delay: 0.5s; }
+        .service-card:nth-child(6) h3 { animation-delay: 0.6s; }
+        .service-card:nth-child(7) h3 { animation-delay: 0.7s; }
+        .service-card:nth-child(8) h3 { animation-delay: 0.8s; }
+        
+        .service-card:nth-child(1) p { animation-delay: 0.2s; }
+        .service-card:nth-child(2) p { animation-delay: 0.3s; }
+        .service-card:nth-child(3) p { animation-delay: 0.4s; }
+        .service-card:nth-child(4) p { animation-delay: 0.5s; }
+        .service-card:nth-child(5) p { animation-delay: 0.6s; }
+        .service-card:nth-child(6) p { animation-delay: 0.7s; }
+        .service-card:nth-child(7) p { animation-delay: 0.8s; }
+        .service-card:nth-child(8) p { animation-delay: 0.9s; }
+        
+        /* Staggered stats animations */
+        .stat:nth-child(1) h3 { animation-delay: 0.1s; }
+        .stat:nth-child(2) h3 { animation-delay: 0.2s; }
+        .stat:nth-child(3) h3 { animation-delay: 0.3s; }
+        
+        .stat:nth-child(1) p { animation-delay: 0.2s; }
+        .stat:nth-child(2) p { animation-delay: 0.3s; }
+        .stat:nth-child(3) p { animation-delay: 0.4s; }
+        
+        /* Staggered contact animations */
+        .contact-item:nth-child(1) h3 { animation-delay: 0.1s; }
+        .contact-item:nth-child(2) h3 { animation-delay: 0.2s; }
+        .contact-item:nth-child(3) h3 { animation-delay: 0.3s; }
+        
+        .contact-item:nth-child(1) p { animation-delay: 0.2s; }
+        .contact-item:nth-child(2) p { animation-delay: 0.3s; }
+        .contact-item:nth-child(3) p { animation-delay: 0.4s; }
+        
+        /* Subtle text hover effects */
+        .service-card h3:hover {
+            color: var(--accent-primary);
+            transition: color 0.3s ease;
+        }
+        
+        /* Navigation text animations */
+        .nav-link {
+            animation: textFadeIn 0.6s ease-out both;
+        }
+        
+        .nav-link:nth-child(1) { animation-delay: 0.1s; }
+        .nav-link:nth-child(2) { animation-delay: 0.2s; }
+        .nav-link:nth-child(3) { animation-delay: 0.3s; }
+        .nav-link:nth-child(4) { animation-delay: 0.4s; }
+        .nav-link:nth-child(5) { animation-delay: 0.5s; }
+    </style>
 </head>
-<body>
+<body data-theme="dark">
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
                 <img src="Assets/Metal%20Streets%20Initials.jpeg" alt="Metal Streets Media" class="logo-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
                 <h2 class="logo-fallback" style="display: none;">MSM</h2>
+                <span class="logo-text">Metal Street</span>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
@@ -34,11 +273,6 @@
                     <a href="#contact" class="nav-link">Contact</a>
                 </li>
             </ul>
-            <div class="theme-toggle">
-                <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle dark mode">
-                    <i class="fas fa-sun" id="theme-icon"></i>
-                </button>
-            </div>
             <div class="hamburger">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -49,22 +283,36 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
+        <!-- Sci-Fi Particles -->
+        <div class="particles-container">
+            <div class="particle test-particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
         <div class="hero-container">
             <div class="hero-content">
-                <div class="hero-logo">
-                    <img src="Assets/Metal%20Streets%20Logo.jpeg" alt="Metal Streets Media" class="hero-logo-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-                    <h2 class="hero-logo-fallback" style="display: none; color: white; font-size: 2rem; font-weight: 700;">Metal Streets Media</h2>
-                </div>
-                <h1 class="hero-title">Transform Your Business with Strategic Marketing</h1>
-                <p class="hero-subtitle">We help businesses grow through innovative digital marketing strategies, compelling brand storytelling, and data-driven results.</p>
-                <div class="hero-buttons">
-                    <a href="#contact" class="btn btn-primary">Get Started</a>
-                    <a href="#services" class="btn btn-secondary">Learn More</a>
+                <h1 class="hero-title apple-hero-animate apple-stagger-1">Transform Your Business with Strategic Marketing</h1>
+                <p class="hero-subtitle apple-hero-animate apple-stagger-2">We help businesses grow through innovative digital marketing strategies, compelling brand storytelling, and data-driven results.</p>
+                <div class="hero-buttons apple-hero-animate apple-stagger-3">
+                    <a href="#contact" class="btn btn-primary apple-button">Get Started</a>
+                    <a href="#services" class="btn btn-secondary apple-button">Learn More</a>
+                    <a href="https://calendly.com/metalstreetmedia/book-a-meeting-with-metal-streets" target="_blank" rel="noopener noreferrer" class="btn btn-calendly apple-button">
+                        <i class="fas fa-calendar-alt"></i>
+                        Book a Meeting
+                    </a>
                 </div>
             </div>
             <div class="hero-image">
-                <div class="hero-graphic">
-                    <i class="fas fa-chart-line"></i>
+                <div class="hero-logo-container apple-parallax apple-hero-animate apple-stagger-4">
+                    <img src="Assets/Metal%20Streets%20Logo.jpeg" alt="Metal Streets Media" class="hero-logo-main" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                    <h2 class="hero-logo-fallback-main" style="display: none; color: white; font-size: 2rem; font-weight: 700;">Metal Streets Media</h2>
                 </div>
             </div>
         </div>
@@ -73,66 +321,234 @@
     <!-- Services Section -->
     <section id="services" class="services">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header apple-text-reveal">
                 <h2>Our Services</h2>
                 <p>Comprehensive marketing solutions tailored to your business needs</p>
             </div>
             <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
+                <div class="service-card" onclick="toggleService(this)">
+                    <button class="expand-btn">+</button>
+                    <div class="service-icon gradient-1">
                         <i class="fas fa-bullhorn"></i>
                     </div>
                     <h3>Digital Marketing</h3>
-                    <p>Comprehensive digital marketing strategies including SEO, PPC, social media, and content marketing to boost your online presence.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-palette"></i>
+                    <div class="service-summary">
+                        <p>Comprehensive digital marketing strategies including SEO, PPC, social media, and content marketing to boost your online presence.</p>
                     </div>
-                    <h3>Brand Strategy</h3>
-                    <p>Develop a compelling brand identity that resonates with your target audience and sets you apart from competitors.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-chart-bar"></i>
+                    <div class="service-content">
+                        <p>Our digital marketing services help businesses establish a strong online presence and drive meaningful engagement with their target audience.</p>
+                        <ul class="service-features">
+                            <li>Search Engine Optimization (SEO)</li>
+                            <li>Pay-Per-Click (PPC) Advertising</li>
+                            <li>Social Media Marketing</li>
+                            <li>Email Marketing Campaigns</li>
+                            <li>Content Marketing Strategy</li>
+                            <li>Online Reputation Management</li>
+                        </ul>
+                        <div class="service-cta">
+                            <a href="#contact" class="btn">Get Started</a>
+                            <a href="https://calendly.com/metalstreetmedia/book-a-meeting-with-metal-streets" target="_blank" rel="noopener noreferrer" class="btn btn-calendly-small">
+                                <i class="fas fa-calendar-alt"></i>
+                                Book Call
+                            </a>
+                        </div>
                     </div>
-                    <h3>Analytics & Reporting</h3>
-                    <p>Data-driven insights and comprehensive reporting to track performance and optimize your marketing campaigns.</p>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3>Social Media Management</h3>
-                    <p>Strategic social media management to build engagement, increase brand awareness, and drive conversions.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-pen-fancy"></i>
-                    </div>
-                    <h3>Content Creation</h3>
-                    <p>High-quality content creation including blog posts, videos, infographics, and social media content.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h3>Growth Marketing</h3>
-                    <p>Scalable growth strategies to accelerate your business expansion and increase market share.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
+                <div class="service-card" onclick="toggleService(this)">
+                    <button class="expand-btn">+</button>
+                    <div class="service-icon gradient-3">
                         <i class="fas fa-laptop-code"></i>
                     </div>
                     <h3>Website Creation</h3>
-                    <p>Custom website development with modern design, responsive layouts, and optimal user experience for your business.</p>
+                    <div class="service-summary">
+                        <p>Custom website development with modern design, responsive layouts, and optimal user experience for your business.</p>
+                    </div>
+                    <div class="service-content">
+                        <p>Build a professional website that converts visitors into customers with our custom development services.</p>
+                        <ul class="service-features">
+                            <li>Custom Website Design</li>
+                            <li>Responsive Development</li>
+                            <li>E-commerce Solutions</li>
+                            <li>Content Management Systems</li>
+                            <li>SEO Optimization</li>
+                            <li>Performance Optimization</li>
+                        </ul>
+                        <div class="service-cta">
+                            <a href="#contact" class="btn">Get Started</a>
+                            <a href="https://calendly.com/metalstreetmedia/book-a-meeting-with-metal-streets" target="_blank" rel="noopener noreferrer" class="btn btn-calendly-small">
+                                <i class="fas fa-calendar-alt"></i>
+                                Book Call
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon">
+                <div class="service-card" onclick="toggleService(this)">
+                    <button class="expand-btn">+</button>
+                    <div class="service-icon gradient-4">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
                     <h3>App Development</h3>
-                    <p>Native and cross-platform mobile app development to engage your customers and expand your digital presence.</p>
+                    <div class="service-summary">
+                        <p>Native and cross-platform mobile app development to engage your customers and expand your digital presence.</p>
+                    </div>
+                    <div class="service-content">
+                        <p>Create powerful mobile applications that engage users and drive business growth across all platforms.</p>
+                        <ul class="service-features">
+                            <li>Native iOS & Android Apps</li>
+                            <li>Cross-Platform Development</li>
+                            <li>UI/UX Design</li>
+                            <li>App Store Optimization</li>
+                            <li>Backend Development</li>
+                            <li>Maintenance & Support</li>
+                        </ul>
+                        <div class="service-cta">
+                            <a href="#contact" class="btn">Get Started</a>
+                            <a href="https://calendly.com/metalstreetmedia/book-a-meeting-with-metal-streets" target="_blank" rel="noopener noreferrer" class="btn btn-calendly-small">
+                                <i class="fas fa-calendar-alt"></i>
+                                Book Call
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-card" onclick="toggleService(this)">
+                    <button class="expand-btn">+</button>
+                    <div class="service-icon gradient-2">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Brand Strategy</h3>
+                    <div class="service-summary">
+                        <p>Develop a compelling brand identity that resonates with your target audience and sets you apart from competitors.</p>
+                    </div>
+                    <div class="service-content">
+                        <p>We create powerful brand strategies that build lasting connections with your customers and drive business growth.</p>
+                        <ul class="service-features">
+                            <li>Brand Identity Development</li>
+                            <li>Logo Design & Visual Identity</li>
+                            <li>Brand Positioning Strategy</li>
+                            <li>Brand Guidelines & Standards</li>
+                            <li>Competitive Analysis</li>
+                            <li>Brand Messaging Framework</li>
+                        </ul>
+                        <div class="service-cta">
+                            <a href="#contact" class="btn">Get Started</a>
+                            <a href="https://calendly.com/metalstreetmedia/book-a-meeting-with-metal-streets" target="_blank" rel="noopener noreferrer" class="btn btn-calendly-small">
+                                <i class="fas fa-calendar-alt"></i>
+                                Book Call
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-card" onclick="toggleService(this)">
+                    <button class="expand-btn">+</button>
+                    <div class="service-icon gradient-3">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Analytics & Reporting</h3>
+                    <div class="service-summary">
+                        <p>Data-driven insights and comprehensive reporting to track performance and optimize your marketing campaigns.</p>
+                    </div>
+                    <div class="service-content">
+                        <p>Transform your data into actionable insights with our comprehensive analytics and reporting services.</p>
+                        <ul class="service-features">
+                            <li>Performance Analytics</li>
+                            <li>Custom Dashboard Creation</li>
+                            <li>ROI Tracking & Analysis</li>
+                            <li>Monthly Performance Reports</li>
+                            <li>Data Visualization</li>
+                            <li>Strategic Recommendations</li>
+                        </ul>
+                        <div class="service-cta">
+                            <a href="#contact" class="btn">Get Started</a>
+                            <a href="https://calendly.com/metalstreetmedia/book-a-meeting-with-metal-streets" target="_blank" rel="noopener noreferrer" class="btn btn-calendly-small">
+                                <i class="fas fa-calendar-alt"></i>
+                                Book Call
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-card" onclick="toggleService(this)">
+                    <button class="expand-btn">+</button>
+                    <div class="service-icon gradient-4">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Social Media Management</h3>
+                    <div class="service-summary">
+                        <p>Strategic social media management to build engagement, increase brand awareness, and drive conversions.</p>
+                    </div>
+                    <div class="service-content">
+                        <p>Build a strong social media presence that engages your audience and drives business results.</p>
+                        <ul class="service-features">
+                            <li>Content Strategy & Planning</li>
+                            <li>Social Media Posting</li>
+                            <li>Community Management</li>
+                            <li>Influencer Partnerships</li>
+                            <li>Social Media Advertising</li>
+                            <li>Engagement Analytics</li>
+                        </ul>
+                        <div class="service-cta">
+                            <a href="#contact" class="btn">Get Started</a>
+                            <a href="https://calendly.com/metalstreetmedia/book-a-meeting-with-metal-streets" target="_blank" rel="noopener noreferrer" class="btn btn-calendly-small">
+                                <i class="fas fa-calendar-alt"></i>
+                                Book Call
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-card" onclick="toggleService(this)">
+                    <button class="expand-btn">+</button>
+                    <div class="service-icon gradient-1">
+                        <i class="fas fa-pen-fancy"></i>
+                    </div>
+                    <h3>Content Creation</h3>
+                    <div class="service-summary">
+                        <p>High-quality content creation including blog posts, videos, infographics, and social media content.</p>
+                    </div>
+                    <div class="service-content">
+                        <p>Create compelling content that tells your story and engages your audience across all platforms.</p>
+                        <ul class="service-features">
+                            <li>Blog Writing & Management</li>
+                            <li>Video Production</li>
+                            <li>Graphic Design & Infographics</li>
+                            <li>Social Media Content</li>
+                            <li>Email Newsletter Content</li>
+                            <li>Content Calendar Planning</li>
+                        </ul>
+                        <div class="service-cta">
+                            <a href="#contact" class="btn">Get Started</a>
+                            <a href="https://calendly.com/metalstreetmedia/book-a-meeting-with-metal-streets" target="_blank" rel="noopener noreferrer" class="btn btn-calendly-small">
+                                <i class="fas fa-calendar-alt"></i>
+                                Book Call
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-card" onclick="toggleService(this)">
+                    <button class="expand-btn">+</button>
+                    <div class="service-icon gradient-2">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Growth Marketing</h3>
+                    <div class="service-summary">
+                        <p>Scalable growth strategies to accelerate your business expansion and increase market share.</p>
+                    </div>
+                    <div class="service-content">
+                        <p>Accelerate your business growth with data-driven strategies and proven marketing techniques.</p>
+                        <ul class="service-features">
+                            <li>Growth Strategy Development</li>
+                            <li>Customer Acquisition Campaigns</li>
+                            <li>Conversion Rate Optimization</li>
+                            <li>Retention & Loyalty Programs</li>
+                            <li>Market Expansion Planning</li>
+                            <li>Performance Optimization</li>
+                        </ul>
+                        <div class="service-cta">
+                            <a href="#contact" class="btn">Get Started</a>
+                            <a href="https://calendly.com/metalstreetmedia/book-a-meeting-with-metal-streets" target="_blank" rel="noopener noreferrer" class="btn btn-calendly-small">
+                                <i class="fas fa-calendar-alt"></i>
+                                Book Call
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -143,26 +559,26 @@
         <div class="container">
             <div class="about-content">
                 <div class="about-text">
-                    <h2>About Metal Streets Media</h2>
-                    <p>We are a passionate team of marketing professionals dedicated to helping businesses achieve their growth objectives. With years of experience in digital marketing, brand development, and strategic planning, we deliver results that matter.</p>
-                    <p>Our approach combines creativity with data-driven insights to create marketing campaigns that not only look great but also drive measurable business outcomes.</p>
+                    <h2 class="apple-text-reveal">About Metal Streets Media</h2>
+                    <p class="apple-text-reveal apple-stagger-1">We are a passionate team of marketing professionals dedicated to helping businesses achieve their growth objectives. With years of experience in digital marketing, brand development, and strategic planning, we deliver results that matter.</p>
+                    <p class="apple-text-reveal apple-stagger-2">Our approach combines creativity with data-driven insights to create marketing campaigns that not only look great but also drive measurable business outcomes.</p>
                     <div class="stats">
-                        <div class="stat">
+                        <div class="stat apple-card-reveal apple-stagger-1">
                             <h3>350+</h3>
                             <p>Happy Clients</p>
                         </div>
-                        <div class="stat">
+                        <div class="stat apple-card-reveal apple-stagger-2">
                             <h3>500+</h3>
                             <p>Projects Completed</p>
                         </div>
-                        <div class="stat">
+                        <div class="stat apple-card-reveal apple-stagger-3">
                             <h3>95%</h3>
                             <p>Client Satisfaction</p>
                         </div>
                     </div>
                 </div>
                 <div class="about-image">
-                    <div class="about-graphic">
+                    <div class="about-graphic apple-parallax apple-image-reveal">
                         <i class="fas fa-lightbulb"></i>
                     </div>
                 </div>
@@ -173,12 +589,12 @@
     <!-- Portfolio Section -->
     <section id="portfolio" class="portfolio">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header apple-text-reveal">
                 <h2>Our Work</h2>
                 <p>Discover how we've helped businesses achieve their marketing goals</p>
             </div>
             <div class="portfolio-grid">
-                <div class="portfolio-item">
+                <div class="portfolio-item apple-card-reveal apple-hover-lift apple-stagger-1">
                     <div class="portfolio-image">
                         <i class="fas fa-shopping-cart"></i>
                     </div>
@@ -187,7 +603,7 @@
                         <p>Increased online sales by 300% for a retail client through strategic digital marketing campaigns.</p>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item apple-card-reveal apple-hover-lift apple-stagger-2">
                     <div class="portfolio-image">
                         <i class="fas fa-building"></i>
                     </div>
@@ -196,7 +612,7 @@
                         <p>Complete brand overhaul for a tech startup, resulting in 150% increase in brand recognition.</p>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item apple-card-reveal apple-hover-lift apple-stagger-3">
                     <div class="portfolio-image">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
@@ -212,46 +628,151 @@
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header apple-text-reveal">
                 <h2>Get In Touch</h2>
                 <p>Ready to transform your business? Let's discuss your marketing needs</p>
             </div>
             <div class="contact-content">
                 <div class="contact-info">
-                    <div class="contact-item">
+                    <div class="contact-item apple-card-reveal apple-stagger-1">
                         <i class="fas fa-envelope"></i>
                         <div>
                             <h3>Email</h3>
                             <p>metalstreetmedia@gmail.com</p>
                         </div>
                     </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <h3>Phone</h3>
-                            <p>+91 8375881237</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
+                    <div class="contact-item apple-card-reveal apple-stagger-2">
                         <i class="fas fa-map-marker-alt"></i>
                         <div>
                             <h3>Location</h3>
                             <p>Delhi, India</p>
                         </div>
                     </div>
+                    
+                    <!-- Calendly Booking Section -->
+                    <div class="calendly-booking-section apple-card-reveal apple-stagger-3">
+                        <div class="booking-content">
+                            <h3>Prefer to Schedule a Call?</h3>
+                            <p>Book a free consultation to discuss your marketing needs and how we can help grow your business.</p>
+                            <a href="https://calendly.com/metalstreetmedia/book-a-meeting-with-metal-streets" target="_blank" rel="noopener noreferrer" class="btn btn-calendly-large">
+                                <i class="fas fa-calendar-check"></i>
+                                <span>Book Free Consultation</span>
+                                <small>Schedule in just 2 minutes</small>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <form class="contact-form" id="contactForm">
+                <form class="contact-form apple-card-reveal apple-stagger-4" id="contactForm">
                     <div class="form-group">
-                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        <input type="text" id="name" name="name" placeholder="Your Name" required class="apple-focus">
                     </div>
                     <div class="form-group">
-                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                        <input type="email" id="email" name="email" placeholder="Your Email" required class="apple-focus">
                     </div>
                     <div class="form-group">
-                        <input type="tel" id="number" name="number" placeholder="Phone Number" required>
+                        <div class="phone-input-container">
+                            <select id="countryCode" name="countryCode" required class="apple-focus country-code-select">
+                                <option value="">Country Code</option>
+                                <option value="+1">🇺🇸 +1 (US/CA)</option>
+                                <option value="+91">🇮🇳 +91 (India)</option>
+                                <option value="+44">🇬🇧 +44 (UK)</option>
+                                <option value="+33">🇫🇷 +33 (France)</option>
+                                <option value="+49">🇩🇪 +49 (Germany)</option>
+                                <option value="+81">🇯🇵 +81 (Japan)</option>
+                                <option value="+86">🇨🇳 +86 (China)</option>
+                                <option value="+61">🇦🇺 +61 (Australia)</option>
+                                <option value="+55">🇧🇷 +55 (Brazil)</option>
+                                <option value="+52">🇲🇽 +52 (Mexico)</option>
+                                <option value="+39">🇮🇹 +39 (Italy)</option>
+                                <option value="+34">🇪🇸 +34 (Spain)</option>
+                                <option value="+7">🇷🇺 +7 (Russia)</option>
+                                <option value="+82">🇰🇷 +82 (South Korea)</option>
+                                <option value="+31">🇳🇱 +31 (Netherlands)</option>
+                                <option value="+46">🇸🇪 +46 (Sweden)</option>
+                                <option value="+47">🇳🇴 +47 (Norway)</option>
+                                <option value="+45">🇩🇰 +45 (Denmark)</option>
+                                <option value="+41">🇨🇭 +41 (Switzerland)</option>
+                                <option value="+43">🇦🇹 +43 (Austria)</option>
+                                <option value="+32">🇧🇪 +32 (Belgium)</option>
+                                <option value="+351">🇵🇹 +351 (Portugal)</option>
+                                <option value="+30">🇬🇷 +30 (Greece)</option>
+                                <option value="+48">🇵🇱 +48 (Poland)</option>
+                                <option value="+420">🇨🇿 +420 (Czech Republic)</option>
+                                <option value="+36">🇭🇺 +36 (Hungary)</option>
+                                <option value="+385">🇭🇷 +385 (Croatia)</option>
+                                <option value="+381">🇷🇸 +381 (Serbia)</option>
+                                <option value="+359">🇧🇬 +359 (Bulgaria)</option>
+                                <option value="+40">🇷🇴 +40 (Romania)</option>
+                                <option value="+380">🇺🇦 +380 (Ukraine)</option>
+                                <option value="+375">🇧🇾 +375 (Belarus)</option>
+                                <option value="+370">🇱🇹 +370 (Lithuania)</option>
+                                <option value="+371">🇱🇻 +371 (Latvia)</option>
+                                <option value="+372">🇪🇪 +372 (Estonia)</option>
+                                <option value="+358">🇫🇮 +358 (Finland)</option>
+                                <option value="+353">🇮🇪 +353 (Ireland)</option>
+                                <option value="+354">🇮🇸 +354 (Iceland)</option>
+                                <option value="+376">🇦🇩 +376 (Andorra)</option>
+                                <option value="+423">🇱🇮 +423 (Liechtenstein)</option>
+                                <option value="+377">🇲🇨 +377 (Monaco)</option>
+                                <option value="+378">🇸🇲 +378 (San Marino)</option>
+                                <option value="+39">🇻🇦 +39 (Vatican)</option>
+                                <option value="+90">🇹🇷 +90 (Turkey)</option>
+                                <option value="+966">🇸🇦 +966 (Saudi Arabia)</option>
+                                <option value="+971">🇦🇪 +971 (UAE)</option>
+                                <option value="+974">🇶🇦 +974 (Qatar)</option>
+                                <option value="+965">🇰🇼 +965 (Kuwait)</option>
+                                <option value="+973">🇧🇭 +973 (Bahrain)</option>
+                                <option value="+968">🇴🇲 +968 (Oman)</option>
+                                <option value="+961">🇱🇧 +961 (Lebanon)</option>
+                                <option value="+962">🇯🇴 +962 (Jordan)</option>
+                                <option value="+972">🇮🇱 +972 (Israel)</option>
+                                <option value="+964">🇮🇶 +964 (Iraq)</option>
+                                <option value="+963">🇸🇾 +963 (Syria)</option>
+                                <option value="+98">🇮🇷 +98 (Iran)</option>
+                                <option value="+93">🇦🇫 +93 (Afghanistan)</option>
+                                <option value="+92">🇵🇰 +92 (Pakistan)</option>
+                                <option value="+880">🇧🇩 +880 (Bangladesh)</option>
+                                <option value="+94">🇱🇰 +94 (Sri Lanka)</option>
+                                <option value="+977">🇳🇵 +977 (Nepal)</option>
+                                <option value="+975">🇧🇹 +975 (Bhutan)</option>
+                                <option value="+960">🇲🇻 +960 (Maldives)</option>
+                                <option value="+65">🇸🇬 +65 (Singapore)</option>
+                                <option value="+60">🇲🇾 +60 (Malaysia)</option>
+                                <option value="+66">🇹🇭 +66 (Thailand)</option>
+                                <option value="+84">🇻🇳 +84 (Vietnam)</option>
+                                <option value="+855">🇰🇭 +855 (Cambodia)</option>
+                                <option value="+856">🇱🇦 +856 (Laos)</option>
+                                <option value="+95">🇲🇲 +95 (Myanmar)</option>
+                                <option value="+63">🇵🇭 +63 (Philippines)</option>
+                                <option value="+62">🇮🇩 +62 (Indonesia)</option>
+                                <option value="+673">🇧🇳 +673 (Brunei)</option>
+                                <option value="+670">🇹🇱 +670 (East Timor)</option>
+                                <option value="+27">🇿🇦 +27 (South Africa)</option>
+                                <option value="+234">🇳🇬 +234 (Nigeria)</option>
+                                <option value="+254">🇰🇪 +254 (Kenya)</option>
+                                <option value="+256">🇺🇬 +256 (Uganda)</option>
+                                <option value="+250">🇷🇼 +250 (Rwanda)</option>
+                                <option value="+255">🇹🇿 +255 (Tanzania)</option>
+                                <option value="+251">🇪🇹 +251 (Ethiopia)</option>
+                                <option value="+20">🇪🇬 +20 (Egypt)</option>
+                                <option value="+212">🇲🇦 +212 (Morocco)</option>
+                                <option value="+213">🇩🇿 +213 (Algeria)</option>
+                                <option value="+216">🇹🇳 +216 (Tunisia)</option>
+                                <option value="+218">🇱🇾 +218 (Libya)</option>
+                                <option value="+249">🇸🇩 +249 (Sudan)</option>
+                                <option value="+211">🇸🇸 +211 (South Sudan)</option>
+                                <option value="+253">🇩🇯 +253 (Djibouti)</option>
+                                <option value="+252">🇸🇴 +252 (Somalia)</option>
+                                <option value="+291">🇪🇷 +291 (Eritrea)</option>
+                            </select>
+                            <input type="tel" id="phone" name="phone" placeholder="Phone Number" required class="apple-focus phone-number-input">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <select id="businessType" name="businessType" required>
+                        <input type="text" id="country" name="country" placeholder="Your Country" required class="apple-focus">
+                    </div>
+                    <div class="form-group">
+                        <select id="businessType" name="businessType" required class="apple-focus">
                             <option value="">Select Business Type</option>
                             <option value="Startup">Startup</option>
                             <option value="Small Business">Small Business</option>
@@ -307,7 +828,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+                    <button type="submit" class="btn btn-primary apple-button" id="submitBtn">Submit</button>
                 </form>
             </div>
         </div>
@@ -331,25 +852,12 @@
                     </div>
                 </div>
                 <div class="footer-section">
-                    <h4>Services</h4>
-                    <ul>
-                        <li><a href="#services">Digital Marketing</a></li>
-                        <li><a href="#services">Brand Strategy</a></li>
-                        <li><a href="#services">Social Media Management</a></li>
-                        <li><a href="#services">Content Creation</a></li>
-                        <li><a href="#services">Analytics & Reporting</a></li>
-                        <li><a href="#services">Growth Marketing</a></li>
-                        <li><a href="#services">Website Creation</a></li>
-                        <li><a href="#services">App Development</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Company</h4>
+                    <h4>Quick Links</h4>
                     <ul>
                         <li><a href="#about">About Us</a></li>
                         <li><a href="#portfolio">Portfolio</a></li>
                         <li><a href="#contact">Contact</a></li>
-                        <li><a href="#">Careers</a></li>
+                        <li><a href="#services">Our Services</a></li>
                     </ul>
                 </div>
             </div>

@@ -20,11 +20,12 @@ function doPost(e) {
     const name = formData.name || '';
     const email = formData.email || '';
     const phone = formData.phone || '';
+    const country = formData.country || '';
     const businessType = formData.businessType || '';
     const services = formData.services || '';
     
     // Create CSV row
-    const csvRow = `"${timestamp}","${name}","${email}","${phone}","${businessType}","${services}"\n`;
+    const csvRow = `"${timestamp}","${name}","${email}","${phone}","${country}","${businessType}","${services}"\n`;
     
     // Get or create the CSV file in Google Drive
     const fileName = 'Metal_Streets_Media_Contact_Submissions.csv';
@@ -34,7 +35,7 @@ function doPost(e) {
     appendToCSVFile(file, csvRow);
     
     // Send email notification
-    sendEmailNotification(name, email, phone, businessType, services, timestamp);
+    sendEmailNotification(name, email, phone, country, businessType, services, timestamp);
     
     // Return success response
     return ContentService
@@ -58,7 +59,7 @@ function getOrCreateCSVFile(fileName) {
     return files.next();
   } else {
     // Create new file with headers
-    const headers = 'Timestamp,Name,Email,Phone,Business Type,Services\n';
+    const headers = 'Timestamp,Name,Email,Phone,Country,Business Type,Services\n';
     const file = DriveApp.createFile(fileName, headers, MimeType.CSV);
     return file;
   }
@@ -75,7 +76,7 @@ function appendToCSVFile(file, csvRow) {
   file.setContent(newContent);
 }
 
-function sendEmailNotification(name, email, phone, businessType, services, timestamp) {
+function sendEmailNotification(name, email, phone, country, businessType, services, timestamp) {
   const recipientEmail = 'metalstreetmedia@gmail.com';
   const subject = 'New Contact Form Submission - Metal Streets Media';
   
@@ -108,6 +109,10 @@ function sendEmailNotification(name, email, phone, businessType, services, times
               <td style="padding: 8px 0; color: #666;">
                 <a href="tel:${phone}" style="color: #007bff; text-decoration: none;">${phone}</a>
               </td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; font-weight: bold; color: #333;">Country:</td>
+              <td style="padding: 8px 0; color: #666;">${country}</td>
             </tr>
             <tr>
               <td style="padding: 8px 0; font-weight: bold; color: #333;">Business Type:</td>
@@ -146,6 +151,7 @@ Submission Details:
 - Name: ${name}
 - Email: ${email}
 - Phone: ${phone}
+- Country: ${country}
 - Business Type: ${businessType}
 - Services Required: ${services}
 
@@ -185,11 +191,12 @@ function testSetup() {
     name: 'Test User',
     email: 'test@example.com',
     phone: '+91 1234567890',
+    country: 'India',
     businessType: 'Startup',
     services: 'Digital Marketing, Website Creation'
   };
   
-  const csvRow = `"${testData.timestamp}","${testData.name}","${testData.email}","${testData.phone}","${testData.businessType}","${testData.services}"\n`;
+  const csvRow = `"${testData.timestamp}","${testData.name}","${testData.email}","${testData.phone}","${testData.country}","${testData.businessType}","${testData.services}"\n`;
   
   const fileName = 'Metal_Streets_Media_Contact_Submissions.csv';
   let file = getOrCreateCSVFile(fileName);
@@ -200,6 +207,7 @@ function testSetup() {
     testData.name,
     testData.email,
     testData.phone,
+    testData.country,
     testData.businessType,
     testData.services,
     testData.timestamp
@@ -208,5 +216,25 @@ function testSetup() {
   Logger.log('Test data saved successfully!');
   Logger.log('Test email notification sent!');
   Logger.log('File URL: ' + file.getUrl());
+}
+
+// Function to test the web app endpoint
+function testWebApp() {
+  // Simulate a POST request to test the doPost function
+  const mockEvent = {
+    parameter: {
+      timestamp: new Date().toLocaleString(),
+      name: 'Web App Test',
+      email: 'test@example.com',
+      phone: '+91 9876543210',
+      country: 'India',
+      businessType: 'Test Business',
+      services: 'Website Creation, Digital Marketing'
+    }
+  };
+  
+  const result = doPost(mockEvent);
+  Logger.log('Web app test result:', result.getContent());
+  return result;
 }
 
