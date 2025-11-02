@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form Test - Metal Streets Media</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .console-log {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Contact Form Test</h1>
+        <p>This is a simplified test version of your contact form to verify the Google Apps Script integration.</p>
+        
+        <form id="testForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" placeholder="+91 1234567890" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <input type="text" id="country" name="country" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="budgetAmount">Budget:</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="number" id="budgetAmount" name="budgetAmount" placeholder="Enter amount" required style="flex: 1;" min="0" step="0.01">
+                    <select id="budgetCurrency" name="budgetCurrency" required style="flex: 0 0 150px;">
+                        <option value="">Currency</option>
+                        <option value="USD">🇺🇸 USD ($)</option>
+                        <option value="INR">🇮🇳 INR (₹)</option>
+                        <option value="EUR">🇪🇺 EUR (€)</option>
+                        <option value="GBP">🇬🇧 GBP (£)</option>
+                        <option value="CAD">🇨🇦 CAD (C$)</option>
+                        <option value="AUD">🇦🇺 AUD (A$)</option>
+                        <option value="JPY">🇯🇵 JPY (¥)</option>
+                        <option value="CNY">🇨🇳 CNY (¥)</option>
+                        <option value="SGD">🇸🇬 SGD (S$)</option>
+                        <option value="Other">Other Currency</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="businessType">Business Type:</label>
+                <select id="businessType" name="businessType" required>
+                    <option value="">Select Business Type</option>
+                    <option value="Startup">Startup</option>
+                    <option value="Small Business">Small Business</option>
+                    <option value="Medium Business">Medium Business</option>
+                    <option value="Large Corporation">Large Corporation</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="services">Services Required:</label>
+                <textarea id="services" name="services" placeholder="Digital Marketing, Website Creation, etc." required></textarea>
+            </div>
+            
+            <button type="submit" id="submitBtn">Test Submit</button>
+        </form>
+        
+        <div id="status" class="status"></div>
+        
+        <div class="console-log" id="consoleLog">
+            <strong>Console Output:</strong><br>
+            <div id="logContent">Ready to test form submission...</div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced form submission with multiple fallback methods
+        async function submitFormData(data, submitBtn, originalText) {
+            const methods = [
+                { name: 'Google Apps Script', url: 'https://script.google.com/macros/s/AKfycbwNFnB2_aG_x9dyiYsypicbT76pme7W7VtmewINhB8ta03ze3NreKe5pxDeJL4YqnLKwQ/exec' },
+                { name: 'Formspree', url: 'https://formspree.io/f/xpwgqjpn' },
+                { name: 'Email Fallback', url: null }
+            ];
+            
+            for (let i = 0; i < methods.length; i++) {
+                const method = methods[i];
+                logToConsole(`Trying submission method ${i + 1}: ${method.name}`);
+                
+                try {
+                    if (method.name === 'Email Fallback') {
+                        // Use mailto as final fallback
+                        await submitViaEmail(data);
+                        showSuccessMessage(submitBtn, originalText);
+                        return;
+                    } else {
+                        const success = await submitViaXHR(data, method.url, method.name);
+                        if (success) {
+                            showSuccessMessage(submitBtn, originalText);
+                            return;
+                        }
+                    }
+                } catch (error) {
+                    logToConsole(`Method ${method.name} failed: ${error.message}`);
+                    if (i === methods.length - 1) {
+                        // All methods failed
+                        showErrorMessage(submitBtn, originalText, 'All submission methods failed. Please contact us directly at metalstreetmedia@gmail.com');
+                    }
+                }
+            }
+        }
+
+        // Submit via XMLHttpRequest
+        function submitViaXHR(data, url, methodName) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                
+                // For Google Apps Script, we need to handle CORS differently
+                if (methodName === 'Google Apps Script') {
+                    // Use GET request with parameters for Google Apps Script
+                    const params = new URLSearchParams(data).toString();
+                    const getUrl = `${url}?${params}`;
+                    
+                    xhr.open('GET', getUrl, true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                } else {
+                    // Use POST for other services
+                    xhr.open('POST', url, true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                }
+                
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        logToConsole(`${methodName} Response status: ${xhr.status}`);
+                        logToConsole(`${methodName} Response text: ${xhr.responseText}`);
+                        
+                        if (xhr.status === 200 || xhr.status === 0) {
+                            // Check if response contains success message
+                            const responseText = xhr.responseText.toLowerCase();
+                            if (responseText.includes('success') || responseText.includes('data saved')) {
+                                resolve(true);
+                            } else {
+                                reject(new Error(`Unexpected response: ${xhr.responseText}`));
+                            }
+                        } else {
+                            reject(new Error(`HTTP ${xhr.status}: ${xhr.responseText}`));
+                        }
+                    }
+                };
+                
+                xhr.onerror = function() {
+                    reject(new Error('Network error'));
+                };
+                
+                xhr.ontimeout = function() {
+                    reject(new Error('Request timeout'));
+                };
+                
+                // Set timeout to 15 seconds for Google Apps Script
+                xhr.timeout = 15000;
+                
+                try {
+                    if (methodName === 'Google Apps Script') {
+                        xhr.send();
+                    } else {
+                        const params = new URLSearchParams(data).toString();
+                        xhr.send(params);
+                    }
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        }
+
+        // Submit via email fallback
+        function submitViaEmail(data) {
+            return new Promise((resolve, reject) => {
+                try {
+                    const subject = encodeURIComponent('New Contact Form Submission - Metal Streets Media');
+                    const body = encodeURIComponent(`
+New Contact Form Submission
+
+Name: ${data.name}
+Email: ${data.email}
+Phone: ${data.phone}
+Country: ${data.country}
+Business Type: ${data.businessType}
+Services Required: ${data.services}
+Timestamp: ${data.timestamp}
+
+This submission was made through the Metal Streets Media contact form.
+                    `);
+                    
+                    const mailtoUrl = `mailto:metalstreetmedia@gmail.com?subject=${subject}&body=${body}`;
+                    
+                    // Open mailto link
+                    window.open(mailtoUrl, '_blank');
+                    
+                    // Show instruction to user
+                    alert('Your form submission failed, but we\'ve opened your email client with the form details pre-filled. Please send the email to complete your submission.');
+                    
+                    resolve(true);
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        }
+
+        // Show success message and reset form
+        function showSuccessMessage(submitBtn, originalText) {
+            showStatus('Form submitted successfully! We will get back to you soon.', 'success');
+            document.getElementById('testForm').reset();
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+
+        // Show error message
+        function showErrorMessage(submitBtn, originalText, message) {
+            showStatus(message, 'error');
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+
+        // Show status message
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+        }
+
+        // Log to console
+        function logToConsole(message) {
+            const logContent = document.getElementById('logContent');
+            const timestamp = new Date().toLocaleTimeString();
+            logContent.innerHTML += `<br>[${timestamp}] ${message}`;
+            logContent.scrollTop = logContent.scrollHeight;
+        }
+
+        // Form submission handler
+        document.getElementById('testForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.textContent;
+            
+            // Show loading state
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+            
+            // Hide previous status
+            document.getElementById('status').style.display = 'none';
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Combine budget amount with currency
+            const budgetAmount = data.budgetAmount || '';
+            const budgetCurrency = data.budgetCurrency || '';
+            data.budget = budgetAmount + ' ' + budgetCurrency;
+            delete data.budgetAmount;
+            delete data.budgetCurrency;
+            
+            // Add timestamp
+            data.timestamp = new Date().toLocaleString();
+            
+            logToConsole('Form submitted with data: ' + JSON.stringify(data, null, 2));
+            
+            // Try multiple submission methods
+            submitFormData(data, submitBtn, originalText);
+        });
+
+        // Test Google Apps Script URL on page load
+        window.addEventListener('load', function() {
+            logToConsole('Testing Google Apps Script URL...');
+            fetch('https://script.google.com/macros/s/AKfycbwNFnB2_aG_x9dyiYsypicbT76pme7W7VtmewINhB8ta03ze3NreKe5pxDeJL4YqnLKwQ/exec')
+                .then(response => response.json())
+                .then(data => {
+                    logToConsole('Google Apps Script test successful: ' + JSON.stringify(data));
+                })
+                .catch(error => {
+                    logToConsole('Google Apps Script test failed: ' + error.message);
+                });
+        });
+    </script>
+</body>
+</html>

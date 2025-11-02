@@ -113,57 +113,267 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     data.phone = countryCode + ' ' + phoneNumber;
     delete data.countryCode; // Remove the separate countryCode field
     
+    // Combine budget amount with currency
+    const budgetAmount = data.budgetAmount || '';
+    const budgetCurrency = data.budgetCurrency || '';
+    data.budget = budgetAmount + ' ' + budgetCurrency;
+    delete data.budgetAmount; // Remove the separate budgetAmount field
+    delete data.budgetCurrency; // Remove the separate budgetCurrency field
+    
+    // Debug: Log the processed data
+    console.log('Processed form data:', data);
+    
     // Add timestamp
     data.timestamp = new Date().toLocaleString();
     
     console.log('Form submitted with data:', data);
     
-    // Your Google Apps Script web app URL
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzsVp3pGHE7qTbgN2trdcXXP6HMi8_eJFQ62BEdGDmq7Ul3l6FSqYlAKwq6qKbj1nWV/exec';
-    
-    // Debug: Log the URL being used
-    console.log('Submitting to URL:', GOOGLE_SCRIPT_URL);
-    console.log('Form data being sent:', data);
-    
-    // Send data to Google Apps Script using XMLHttpRequest (more reliable)
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    
-    // Convert data to URL-encoded format
-    const params = new URLSearchParams(data).toString();
-    
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            console.log('XHR Response status:', xhr.status);
-            console.log('XHR Response text:', xhr.responseText);
-            
-            if (xhr.status === 200 || xhr.status === 0) {
-                // Show success message
-                alert('Thank you for your message! We will get back to you soon.');
-                // Reset form
-                document.getElementById('contactForm').reset();
-            } else {
-                console.error('Error submitting form. Status:', xhr.status);
-                alert('There was an error submitting your form. Please try again or contact us directly at metalstreetmedia@gmail.com');
-            }
-            
-            // Reset button state
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }
-    };
-    
-    xhr.onerror = function() {
-        console.error('Network error submitting form');
-        alert('There was a network error. Please check your internet connection and try again.');
-        // Reset button state
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    };
-    
-    xhr.send(params);
+    // Try multiple submission methods
+    submitFormData(data, submitBtn, originalText);
 });
+
+// Enhanced form submission with multiple fallback methods
+async function submitFormData(data, submitBtn, originalText) {
+    const methods = [
+        { name: 'Google Apps Script', url: 'https://script.google.com/macros/s/AKfycbwNFnB2_aG_x9dyiYsypicbT76pme7W7VtmewINhB8ta03ze3NreKe5pxDeJL4YqnLKwQ/exec' },
+        { name: 'Email Fallback', url: null }
+    ];
+    
+    for (let i = 0; i < methods.length; i++) {
+        const method = methods[i];
+        console.log(`Trying submission method ${i + 1}: ${method.name}`);
+        
+        try {
+            if (method.name === 'Email Fallback') {
+                // Use mailto as final fallback
+                await submitViaEmail(data);
+                showSuccessMessage(submitBtn, originalText);
+                return;
+            } else if (method.name === 'Google Apps Script') {
+                // Use iframe method to bypass CORS (same as simple form test)
+                const success = await submitViaIframe(data, method.url);
+                if (success) {
+                    showSuccessMessage(submitBtn, originalText);
+                    return;
+                }
+            } else {
+                const success = await submitViaXHR(data, method.url, method.name);
+                if (success) {
+                    showSuccessMessage(submitBtn, originalText);
+                    return;
+                }
+            }
+        } catch (error) {
+            console.error(`Method ${method.name} failed:`, error);
+            if (i === methods.length - 1) {
+                // All methods failed
+                showErrorMessage(submitBtn, originalText, 'All submission methods failed. Please contact us directly at metalstreetmedia@gmail.com');
+            }
+        }
+    }
+}
+
+// Submit via iframe (bypasses CORS)
+function submitViaIframe(data, url) {
+    return new Promise((resolve, reject) => {
+        try {
+            const params = new URLSearchParams(data).toString();
+            const fullUrl = `${url}?${params}`;
+            
+            console.log('Submitting via iframe:', fullUrl);
+            
+            // Create a hidden iframe to submit the form
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = fullUrl;
+            document.body.appendChild(iframe);
+            
+            // Resolve after a short delay (iframe method can't read response)
+            setTimeout(() => {
+                console.log('Iframe submission completed');
+                document.body.removeChild(iframe);
+                resolve(true);
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Iframe submission error:', error);
+            reject(error);
+        }
+    });
+}
+
+// Submit via XMLHttpRequest
+function submitViaXHR(data, url, methodName) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        
+        // For Google Apps Script, we need to handle CORS differently
+        if (methodName === 'Google Apps Script') {
+            // Use GET request with parameters for Google Apps Script
+            const params = new URLSearchParams(data).toString();
+            const getUrl = `${url}?${params}`;
+            
+            xhr.open('GET', getUrl, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+        } else {
+            // Use POST for other services
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            
+            // Convert data to URL-encoded format
+            const params = new URLSearchParams(data).toString();
+        }
+        
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                console.log(`${methodName} Response status:`, xhr.status);
+                console.log(`${methodName} Response text:`, xhr.responseText);
+                
+                if (xhr.status === 200 || xhr.status === 0) {
+                    // Check if response contains success message
+                    const responseText = xhr.responseText.toLowerCase();
+                    console.log(`${methodName} Response analysis:`, {
+                        status: xhr.status,
+                        responseText: xhr.responseText,
+                        containsSuccess: responseText.includes('success'),
+                        containsDataSaved: responseText.includes('data saved')
+                    });
+                    
+                    if (responseText.includes('success') || responseText.includes('data saved')) {
+                        resolve(true);
+                    } else {
+                        reject(new Error(`Unexpected response: ${xhr.responseText}`));
+                    }
+                } else {
+                    reject(new Error(`HTTP ${xhr.status}: ${xhr.responseText}`));
+                }
+            }
+        };
+        
+        xhr.onerror = function() {
+            reject(new Error('Network error'));
+        };
+        
+        xhr.ontimeout = function() {
+            reject(new Error('Request timeout'));
+        };
+        
+        // Set timeout to 15 seconds for Google Apps Script
+        xhr.timeout = 15000;
+        
+        try {
+            if (methodName === 'Google Apps Script') {
+                xhr.send();
+            } else {
+                const params = new URLSearchParams(data).toString();
+                xhr.send(params);
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+// Submit via Google Apps Script using fetch (bypasses some CORS issues)
+function submitViaGoogleAppsScript(data, url) {
+    return new Promise((resolve, reject) => {
+        const params = new URLSearchParams(data).toString();
+        const getUrl = `${url}?${params}`;
+        
+        console.log('Submitting to Google Apps Script:', getUrl);
+        
+        // Use fetch with no-cors mode to bypass CORS
+        fetch(getUrl, {
+            method: 'GET',
+            mode: 'no-cors',
+            cache: 'no-cache'
+        })
+        .then(() => {
+            // With no-cors mode, we can't read the response, but if no error occurred, assume success
+            console.log('Google Apps Script submission completed (no-cors mode)');
+            resolve(true);
+        })
+        .catch(error => {
+            console.error('Google Apps Script fetch error:', error);
+            reject(error);
+        });
+    });
+}
+
+// Submit via email fallback
+function submitViaEmail(data) {
+    return new Promise((resolve, reject) => {
+        try {
+            const subject = encodeURIComponent('New Contact Form Submission - Metal Streets Media');
+            const body = encodeURIComponent(`
+New Contact Form Submission
+
+Name: ${data.name}
+Email: ${data.email}
+Phone: ${data.phone}
+Country: ${data.country}
+Business Type: ${data.businessType}
+Services Required: ${data.services}
+Timestamp: ${data.timestamp}
+
+This submission was made through the Metal Streets Media contact form.
+            `);
+            
+            const mailtoUrl = `mailto:metalstreetmedia@gmail.com?subject=${subject}&body=${body}`;
+            
+            // Open mailto link
+            window.open(mailtoUrl, '_blank');
+            
+            // Show instruction to user
+            alert('Your form submission failed, but we\'ve opened your email client with the form details pre-filled. Please send the email to complete your submission.');
+            
+            resolve(true);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+// Show beautiful success message
+function showSuccessMessage(submitBtn, originalText) {
+    // Reset button
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = originalText;
+    
+    // Show beautiful success modal
+    showBeautifulSuccessModal();
+}
+
+// Show beautiful success modal
+function showBeautifulSuccessModal() {
+    const modal = document.getElementById('successModal');
+    modal.classList.add('show');
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+}
+
+// Close success modal
+function closeSuccessModal() {
+    const modal = document.getElementById('successModal');
+    modal.classList.remove('show');
+    
+    // Restore body scroll
+    document.body.style.overflow = '';
+    
+    // Reset form
+    const form = document.getElementById('contactForm');
+    if (form) {
+        form.reset();
+    }
+}
+
+// Show error message
+function showErrorMessage(submitBtn, originalText, message) {
+    alert(message);
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+}
 
 // Intersection Observer for animations
 const observerOptions = {

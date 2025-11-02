@@ -2,81 +2,141 @@
 // Deploy this as a web app and get the URL to replace in your website
 
 function doGet(e) {
-  // Handle GET requests (when someone visits the URL directly)
-  return ContentService
-    .createTextOutput(JSON.stringify({ 
-      'status': 'success', 
-      'message': 'Metal Streets Media Contact Form Handler is running',
-      'usage': 'This endpoint accepts POST requests from the contact form'
-    }))
-    .setMimeType(ContentService.MimeType.JSON);
+  // Handle GET requests (both direct visits and form submissions)
+  try {
+    // Check if this is a form submission (has parameters)
+    if (e.parameter && Object.keys(e.parameter).length > 0) {
+      // Process form data from GET request
+      return processFormData(e.parameter);
+    } else {
+      // Handle direct visits to the URL
+      return ContentService
+        .createTextOutput(JSON.stringify({ 
+          'status': 'success', 
+          'message': 'Metal Streets Media Contact Form Handler is running',
+          'usage': 'This endpoint accepts both GET and POST requests from the contact form'
+        }))
+        .setMimeType(ContentService.MimeType.JSON)
+        .setHeaders({
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        });
+    }
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ 'status': 'error', 'message': error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      });
+  }
 }
 
 function doPost(e) {
   try {
-    // Get form data
-    const formData = e.parameter;
+    // Process form data from POST request
+    return processFormData(e.parameter);
+  } catch (error) {
+    // Return error response
+    return ContentService
+      .createTextOutput(JSON.stringify({ 'status': 'error', 'message': error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      });
+  }
+}
+
+// Common function to process form data from both GET and POST requests
+function processFormData(formData) {
+  try {
     const timestamp = formData.timestamp || new Date().toLocaleString();
     const name = formData.name || '';
     const email = formData.email || '';
     const phone = formData.phone || '';
     const country = formData.country || '';
+    const city = formData.city || '';
+    const budget = formData.budget || '';
     const businessType = formData.businessType || '';
     const services = formData.services || '';
     
-    // Create CSV row
-    const csvRow = `"${timestamp}","${name}","${email}","${phone}","${country}","${businessType}","${services}"\n`;
-    
-    // Get or create the CSV file in Google Drive
-    const fileName = 'Metal_Streets_Media_Contact_Submissions.csv';
-    let file = getOrCreateCSVFile(fileName);
-    
-    // Append data to the file
-    appendToCSVFile(file, csvRow);
+    // Save data to Google Sheets
+    saveToGoogleSheets(name, email, phone, country, city, budget, businessType, services, timestamp);
     
     // Send email notification
-    sendEmailNotification(name, email, phone, country, businessType, services, timestamp);
+    sendEmailNotification(name, email, phone, country, city, budget, businessType, services, timestamp);
     
     // Return success response
     return ContentService
-      .createTextOutput(JSON.stringify({ 'status': 'success', 'message': 'Data saved successfully' }))
-      .setMimeType(ContentService.MimeType.JSON);
+      .createTextOutput(JSON.stringify({ 'status': 'success', 'message': 'Data saved successfully to Google Sheets' }))
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      });
       
   } catch (error) {
     // Return error response
     return ContentService
       .createTextOutput(JSON.stringify({ 'status': 'error', 'message': error.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      });
   }
 }
 
-function getOrCreateCSVFile(fileName) {
-  // Search for existing file
-  const files = DriveApp.getFilesByName(fileName);
-  
-  if (files.hasNext()) {
-    // File exists, return it
-    return files.next();
-  } else {
-    // Create new file with headers
-    const headers = 'Timestamp,Name,Email,Phone,Country,Business Type,Services\n';
-    const file = DriveApp.createFile(fileName, headers, MimeType.CSV);
-    return file;
+// Save data to Google Sheets
+function saveToGoogleSheets(name, email, phone, country, city, budget, businessType, services, timestamp) {
+  try {
+    // Your Google Sheets ID (extracted from the URL)
+    const SHEET_ID = '1u2lXBkn3l8n-fTNvwanSddq6PkUmH070hElmIf6P1uw';
+    
+    // Open the spreadsheet
+    const spreadsheet = SpreadsheetApp.openById(SHEET_ID);
+    
+    // Get the first sheet (or create one if it doesn't exist)
+    let sheet = spreadsheet.getSheets()[0];
+    if (!sheet) {
+      sheet = spreadsheet.insertSheet('Form Responses');
+    }
+    
+    // Get the last row to append new data
+    const lastRow = sheet.getLastRow();
+    
+    // Prepare the data row
+    // The spreadsheet has columns: Name, Email, Phone Number, Country, City, Budget, Services
+    const rowData = [
+      name,                    // Column A: Name
+      email,                   // Column B: Email  
+      phone,                   // Column C: Phone Number
+      country,                 // Column D: Country
+      city,                    // Column E: City
+      budget,                  // Column F: Budget
+      services                 // Column G: Services
+    ];
+    
+    // Add the data to the next available row
+    sheet.getRange(lastRow + 1, 1, 1, rowData.length).setValues([rowData]);
+    
+    // Log successful save
+    Logger.log('Data saved to Google Sheets successfully');
+    
+  } catch (error) {
+    Logger.log('Error saving to Google Sheets: ' + error.toString());
+    throw error;
   }
 }
 
-function appendToCSVFile(file, csvRow) {
-  // Get current content
-  const currentContent = file.getBlob().getDataAsString();
-  
-  // Append new row
-  const newContent = currentContent + csvRow;
-  
-  // Update file
-  file.setContent(newContent);
-}
-
-function sendEmailNotification(name, email, phone, country, businessType, services, timestamp) {
+function sendEmailNotification(name, email, phone, country, city, budget, businessType, services, timestamp) {
   const recipientEmail = 'metalstreetmedia@gmail.com';
   const subject = 'New Contact Form Submission - Metal Streets Media';
   
@@ -115,6 +175,14 @@ function sendEmailNotification(name, email, phone, country, businessType, servic
               <td style="padding: 8px 0; color: #666;">${country}</td>
             </tr>
             <tr>
+              <td style="padding: 8px 0; font-weight: bold; color: #333;">City:</td>
+              <td style="padding: 8px 0; color: #666;">${city}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; font-weight: bold; color: #333;">Budget:</td>
+              <td style="padding: 8px 0; color: #666;">${budget}</td>
+            </tr>
+            <tr>
               <td style="padding: 8px 0; font-weight: bold; color: #333;">Business Type:</td>
               <td style="padding: 8px 0; color: #666;">${businessType}</td>
             </tr>
@@ -126,7 +194,11 @@ function sendEmailNotification(name, email, phone, country, businessType, servic
         </div>
         
         <div style="text-align: center; margin-top: 30px;">
-          <p style="color: #666; margin-bottom: 15px;">This submission has been automatically saved to your Google Drive CSV file.</p>
+          <p style="color: #666; margin-bottom: 15px;">This submission has been automatically saved to your Google Sheets.</p>
+          <a href="https://docs.google.com/spreadsheets/d/1u2lXBkn3l8n-fTNvwanSddq6PkUmH070hElmIf6P1uw/edit" 
+             style="background-color: #28a745; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block; margin-right: 10px;">
+            View Google Sheets
+          </a>
           <a href="mailto:${email}?subject=Re: Your inquiry to Metal Streets Media" 
              style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
             Reply to ${name}
@@ -152,10 +224,12 @@ Submission Details:
 - Email: ${email}
 - Phone: ${phone}
 - Country: ${country}
+- City: ${city}
+- Budget: ${budget}
 - Business Type: ${businessType}
 - Services Required: ${services}
 
-This submission has been automatically saved to your Google Drive CSV file.
+This submission has been automatically saved to your Google Sheets.
 
 You can reply directly to ${email} to follow up on this inquiry.
 
@@ -192,15 +266,24 @@ function testSetup() {
     email: 'test@example.com',
     phone: '+91 1234567890',
     country: 'India',
+    city: 'Mumbai',
+    budget: '50000 INR',
     businessType: 'Startup',
     services: 'Digital Marketing, Website Creation'
   };
   
-  const csvRow = `"${testData.timestamp}","${testData.name}","${testData.email}","${testData.phone}","${testData.country}","${testData.businessType}","${testData.services}"\n`;
-  
-  const fileName = 'Metal_Streets_Media_Contact_Submissions.csv';
-  let file = getOrCreateCSVFile(fileName);
-  appendToCSVFile(file, csvRow);
+  // Test Google Sheets save
+  saveToGoogleSheets(
+    testData.name,
+    testData.email,
+    testData.phone,
+    testData.country,
+    testData.city,
+    testData.budget,
+    testData.businessType,
+    testData.services,
+    testData.timestamp
+  );
   
   // Test email notification
   sendEmailNotification(
@@ -208,14 +291,16 @@ function testSetup() {
     testData.email,
     testData.phone,
     testData.country,
+    testData.city,
+    testData.budget,
     testData.businessType,
     testData.services,
     testData.timestamp
   );
   
-  Logger.log('Test data saved successfully!');
+  Logger.log('Test data saved to Google Sheets successfully!');
   Logger.log('Test email notification sent!');
-  Logger.log('File URL: ' + file.getUrl());
+  Logger.log('Check your Google Sheets: https://docs.google.com/spreadsheets/d/1u2lXBkn3l8n-fTNvwanSddq6PkUmH070hElmIf6P1uw/edit');
 }
 
 // Function to test the web app endpoint
@@ -228,6 +313,8 @@ function testWebApp() {
       email: 'test@example.com',
       phone: '+91 9876543210',
       country: 'India',
+      city: 'Delhi',
+      budget: '15000 USD',
       businessType: 'Test Business',
       services: 'Website Creation, Digital Marketing'
     }

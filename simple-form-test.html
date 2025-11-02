@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Form Test - Metal Streets Media</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Simple Form Test</h1>
+        <p>This form uses a direct approach to bypass CORS issues.</p>
+        
+        <form id="simpleForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" placeholder="+91 1234567890" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <input type="text" id="country" name="country" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="budgetAmount">Budget Amount:</label>
+                <input type="number" id="budgetAmount" name="budgetAmount" required min="0" step="0.01">
+            </div>
+            
+            <div class="form-group">
+                <label for="budgetCurrency">Currency:</label>
+                <select id="budgetCurrency" name="budgetCurrency" required>
+                    <option value="">Select Currency</option>
+                    <option value="USD">🇺🇸 USD ($)</option>
+                    <option value="INR">🇮🇳 INR (₹)</option>
+                    <option value="EUR">🇪🇺 EUR (€)</option>
+                    <option value="GBP">🇬🇧 GBP (£)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="businessType">Business Type:</label>
+                <select id="businessType" name="businessType" required>
+                    <option value="">Select Business Type</option>
+                    <option value="Startup">Startup</option>
+                    <option value="Small Business">Small Business</option>
+                    <option value="Medium Business">Medium Business</option>
+                    <option value="Large Corporation">Large Corporation</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="services">Services:</label>
+                <input type="text" id="services" name="services" placeholder="Digital Marketing, Website Creation, etc." required>
+            </div>
+            
+            <button type="submit">Submit Form</button>
+        </form>
+        
+        <div id="status" class="status"></div>
+    </div>
+
+    <script>
+        document.getElementById('simpleForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Combine budget amount with currency
+            const budgetAmount = data.budgetAmount || '';
+            const budgetCurrency = data.budgetCurrency || '';
+            data.budget = budgetAmount + ' ' + budgetCurrency;
+            delete data.budgetAmount;
+            delete data.budgetCurrency;
+            
+            // Add timestamp
+            data.timestamp = new Date().toLocaleString();
+            
+            console.log('Form data:', data);
+            
+            // Method 1: Try direct form submission (bypasses CORS)
+            const params = new URLSearchParams(data).toString();
+            const url = `https://script.google.com/macros/s/AKfycbwNFnB2_aG_x9dyiYsypicbT76pme7W7VtmewINhB8ta03ze3NreKe5pxDeJL4YqnLKwQ/exec?${params}`;
+            
+            // Create a hidden iframe to submit the form
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = url;
+            document.body.appendChild(iframe);
+            
+            // Show success message after a short delay
+            setTimeout(() => {
+                showStatus('Form submitted successfully! Check your Google Sheets and email.', 'success');
+                document.getElementById('simpleForm').reset();
+                document.body.removeChild(iframe);
+            }, 2000);
+        });
+        
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
+
