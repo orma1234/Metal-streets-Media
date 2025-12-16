@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metal Streets - Where Creativity Meets Code</title>
-    <meta name="description" content="Professional marketing services including digital marketing, brand strategy, and growth solutions for businesses of all sizes.">
+    <meta name="description" content="Metal Streets - Where Creativity Meets Code. We help brands grow through strategy, storytelling, and smart digital marketing — bringing ideas to life through design, development, and deployment of high-performing websites and apps.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Metal Streets - Where Creativity Meets Code">
+    <meta property="og:description" content="Metal Streets - Where Creativity Meets Code. We help brands grow through strategy, storytelling, and smart digital marketing — bringing ideas to life through design, development, and deployment of high-performing websites and apps.">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Metal Streets - Where Creativity Meets Code">
+    <meta name="twitter:description" content="Metal Streets - Where Creativity Meets Code. We help brands grow through strategy, storytelling, and smart digital marketing — bringing ideas to life through design, development, and deployment of high-performing websites and apps.">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Fredoka+One&family=Bungee&display=swap" rel="stylesheet">
@@ -267,7 +277,7 @@
                     <a href="#about" class="nav-link">About</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#portfolio" class="nav-link">Portfolio</a>
+                    <a href="#projects" class="nav-link">Case Studies</a>
                 </li>
                 <li class="nav-item">
                     <a href="#contact" class="nav-link">Contact</a>
@@ -298,17 +308,21 @@
         </div>
         <div class="hero-image">
             <div class="hero-logo-container apple-parallax apple-hero-animate apple-stagger-1">
-                <video class="hero-logo-main" autoplay loop muted playsinline>
+                <video id="heroVideo" class="hero-logo-main" autoplay loop muted playsinline webkit-playsinline preload="auto">
+                    <!-- Use MP4 first for better mobile/browser support -->
+                    <source src="Assets/Metal Street Fire Logo.mp4" type="video/mp4">
+                    <!-- Keep MOV as a fallback -->
                     <source src="Assets/Metal Street Fire Logo.mov" type="video/quicktime">
-                    <source src="Assets/Metal Street Fire Logo.mov" type="video/mp4">
                     <h2 class="hero-logo-fallback-main" style="color: white; font-size: 2rem; font-weight: 700;">Metal Streets Media</h2>
                 </video>
+                <!-- Cover layer so iOS play icon is never visible; fades out when video actually plays -->
+                <div class="hero-video-cover"></div>
             </div>
         </div>
         <div class="hero-container">
             <div class="hero-content">
                 <h1 class="hero-title apple-hero-animate apple-stagger-2">Transform Your Business with Metal Streets</h1>
-                <p class="hero-subtitle apple-hero-animate apple-stagger-3">We help brands grow through strategy, storytelling, and smart digital marketing — bringing ideas to life through the design, development, and deployment of high-performing websites and apps.</p>
+                <p class="hero-subtitle apple-hero-animate apple-stagger-3">We specialize in building robust, scalable, and high-performance digital solutions through end-to-end design, development, and deployment of websites and applications. Our focus is on engineering reliable architectures, seamless user experiences, and secure systems that help brands and businesses operate efficiently and scale with confidence.</p>
                 <div class="hero-buttons apple-hero-animate apple-stagger-4">
                     <a href="#contact" class="btn btn-primary apple-button">Get Started</a>
                     <a href="#services" class="btn btn-secondary apple-button">Learn More</a>
@@ -326,7 +340,7 @@
         <div class="container">
             <div class="section-header apple-text-reveal">
                 <h2>Our Services</h2>
-                <p>Comprehensive marketing solutions tailored to your business needs</p>
+                <p>Comprehensive technical solutions for building robust, scalable digital products</p>
             </div>
             <div class="services-grid">
                 <div class="service-card" onclick="toggleService(this)">
@@ -336,17 +350,17 @@
                     </div>
                     <h3>App Development</h3>
                     <div class="service-summary">
-                        <p>Native and cross-platform mobile app development to engage your customers and expand your digital presence.</p>
+                        <p>Native and cross-platform mobile application development with robust architecture and scalable backend systems.</p>
                     </div>
                     <div class="service-content">
-                        <p>Create powerful mobile applications that engage users and drive business growth across all platforms.</p>
+                        <p>Build high-performance mobile applications with clean code architecture, secure APIs, and seamless user experiences.</p>
                         <ul class="service-features">
-                            <li>Native iOS & Android Apps</li>
-                            <li>Cross-Platform Development</li>
-                            <li>UI/UX Design</li>
-                            <li>App Store Optimization</li>
-                            <li>Backend Development</li>
-                            <li>Maintenance & Support</li>
+                            <li>Native iOS & Android Development</li>
+                            <li>React Native & Flutter Cross-Platform</li>
+                            <li>RESTful API Integration</li>
+                            <li>State Management & Architecture</li>
+                            <li>App Store & Play Store Deployment</li>
+                            <li>Performance Optimization & Testing</li>
                         </ul>
                         <div class="service-cta">
                             <a href="#contact" class="btn">Get Started</a>
@@ -362,19 +376,19 @@
                     <div class="service-icon gradient-3">
                         <i class="fas fa-laptop-code"></i>
                     </div>
-                    <h3>Website Creation</h3>
+                    <h3>Web Development</h3>
                     <div class="service-summary">
-                        <p>Custom website development with modern design, responsive layouts, and optimal user experience for your business.</p>
+                        <p>Full-stack web application development with modern frameworks, scalable architecture, and optimized performance.</p>
                     </div>
                     <div class="service-content">
-                        <p>Build a professional website that converts visitors into customers with our custom development services.</p>
+                        <p>Engineer robust web applications with clean code, secure authentication, and scalable infrastructure.</p>
                         <ul class="service-features">
-                            <li>Custom Website Design</li>
-                            <li>Responsive Development</li>
-                            <li>E-commerce Solutions</li>
-                            <li>Content Management Systems</li>
-                            <li>SEO Optimization</li>
-                            <li>Performance Optimization</li>
+                            <li>Frontend: React, Vue, Next.js</li>
+                            <li>Backend: Node.js, Python, Go</li>
+                            <li>E-commerce & Payment Integration</li>
+                            <li>Headless CMS Implementation</li>
+                            <li>Server-Side Rendering (SSR)</li>
+                            <li>Performance & Security Optimization</li>
                         </ul>
                         <div class="service-cta">
                             <a href="#contact" class="btn">Get Started</a>
@@ -388,21 +402,21 @@
                 <div class="service-card" onclick="toggleService(this)">
                     <button class="expand-btn">+</button>
                     <div class="service-icon gradient-1">
-                        <i class="fas fa-bullhorn"></i>
+                        <i class="fas fa-server"></i>
                     </div>
-                    <h3>Digital Marketing</h3>
+                    <h3>Backend Development</h3>
                     <div class="service-summary">
-                        <p>Comprehensive digital marketing strategies including SEO, PPC, social media, and content marketing to boost your online presence.</p>
+                        <p>Scalable backend systems, RESTful APIs, microservices architecture, and database design for robust applications.</p>
                     </div>
                     <div class="service-content">
-                        <p>Our digital marketing services help businesses establish a strong online presence and drive meaningful engagement with their target audience.</p>
+                        <p>Build secure, high-performance backend systems with proper architecture patterns, authentication, and data management.</p>
                         <ul class="service-features">
-                            <li>Search Engine Optimization (SEO)</li>
-                            <li>Pay-Per-Click (PPC) Advertising</li>
-                            <li>Social Media Marketing</li>
-                            <li>Email Marketing Campaigns</li>
-                            <li>Content Marketing Strategy</li>
-                            <li>Online Reputation Management</li>
+                            <li>RESTful & GraphQL API Development</li>
+                            <li>Microservices Architecture</li>
+                            <li>Database Design & Optimization</li>
+                            <li>Authentication & Authorization</li>
+                            <li>Third-Party API Integration</li>
+                            <li>Serverless & Cloud Functions</li>
                         </ul>
                         <div class="service-cta">
                             <a href="#contact" class="btn">Get Started</a>
@@ -416,21 +430,21 @@
                 <div class="service-card" onclick="toggleService(this)">
                     <button class="expand-btn">+</button>
                     <div class="service-icon gradient-2">
-                        <i class="fas fa-palette"></i>
+                        <i class="fas fa-cloud"></i>
                     </div>
-                    <h3>Brand Strategy</h3>
+                    <h3>Cloud Infrastructure & DevOps</h3>
                     <div class="service-summary">
-                        <p>Develop a compelling brand identity that resonates with your target audience and sets you apart from competitors.</p>
+                        <p>Cloud deployment, CI/CD pipelines, containerization, and infrastructure automation for scalable systems.</p>
                     </div>
                     <div class="service-content">
-                        <p>We create powerful brand strategies that build lasting connections with your customers and drive business growth.</p>
+                        <p>Deploy and manage your applications with modern DevOps practices, automated pipelines, and cloud infrastructure.</p>
                         <ul class="service-features">
-                            <li>Brand Identity Development</li>
-                            <li>Logo Design & Visual Identity</li>
-                            <li>Brand Positioning Strategy</li>
-                            <li>Brand Guidelines & Standards</li>
-                            <li>Competitive Analysis</li>
-                            <li>Brand Messaging Framework</li>
+                            <li>AWS, Azure, GCP Deployment</li>
+                            <li>Docker & Kubernetes</li>
+                            <li>CI/CD Pipeline Setup</li>
+                            <li>Infrastructure as Code (IaC)</li>
+                            <li>Monitoring & Logging</li>
+                            <li>Auto-scaling & Load Balancing</li>
                         </ul>
                         <div class="service-cta">
                             <a href="#contact" class="btn">Get Started</a>
@@ -444,21 +458,21 @@
                 <div class="service-card" onclick="toggleService(this)">
                     <button class="expand-btn">+</button>
                     <div class="service-icon gradient-3">
-                        <i class="fas fa-chart-bar"></i>
+                        <i class="fas fa-database"></i>
                     </div>
-                    <h3>Analytics & Reporting</h3>
+                    <h3>Database Design & Management</h3>
                     <div class="service-summary">
-                        <p>Data-driven insights and comprehensive reporting to track performance and optimize your marketing campaigns.</p>
+                        <p>Database architecture, optimization, migration, and management for efficient data storage and retrieval.</p>
                     </div>
                     <div class="service-content">
-                        <p>Transform your data into actionable insights with our comprehensive analytics and reporting services.</p>
+                        <p>Design and optimize databases for performance, scalability, and data integrity with best practices.</p>
                         <ul class="service-features">
-                            <li>Performance Analytics</li>
-                            <li>Custom Dashboard Creation</li>
-                            <li>ROI Tracking & Analysis</li>
-                            <li>Monthly Performance Reports</li>
-                            <li>Data Visualization</li>
-                            <li>Strategic Recommendations</li>
+                            <li>SQL & NoSQL Database Design</li>
+                            <li>Database Optimization & Indexing</li>
+                            <li>Data Migration & ETL</li>
+                            <li>Backup & Recovery Strategies</li>
+                            <li>Query Optimization</li>
+                            <li>Data Modeling & Architecture</li>
                         </ul>
                         <div class="service-cta">
                             <a href="#contact" class="btn">Get Started</a>
@@ -472,21 +486,21 @@
                 <div class="service-card" onclick="toggleService(this)">
                     <button class="expand-btn">+</button>
                     <div class="service-icon gradient-4">
-                        <i class="fas fa-users"></i>
+                        <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3>Social Media Management</h3>
+                    <h3>Security & Compliance</h3>
                     <div class="service-summary">
-                        <p>Strategic social media management to build engagement, increase brand awareness, and drive conversions.</p>
+                        <p>Application security, data protection, compliance implementation, and security audits for secure systems.</p>
                     </div>
                     <div class="service-content">
-                        <p>Build a strong social media presence that engages your audience and drives business results.</p>
+                        <p>Implement robust security measures, encryption, authentication, and compliance standards to protect your applications.</p>
                         <ul class="service-features">
-                            <li>Content Strategy & Planning</li>
-                            <li>Social Media Posting</li>
-                            <li>Community Management</li>
-                            <li>Influencer Partnerships</li>
-                            <li>Social Media Advertising</li>
-                            <li>Engagement Analytics</li>
+                            <li>Security Audits & Penetration Testing</li>
+                            <li>Data Encryption & Protection</li>
+                            <li>GDPR & Compliance Implementation</li>
+                            <li>Authentication & Authorization</li>
+                            <li>API Security & Rate Limiting</li>
+                            <li>Security Best Practices</li>
                         </ul>
                         <div class="service-cta">
                             <a href="#contact" class="btn">Get Started</a>
@@ -500,21 +514,21 @@
                 <div class="service-card" onclick="toggleService(this)">
                     <button class="expand-btn">+</button>
                     <div class="service-icon gradient-1">
-                        <i class="fas fa-pen-fancy"></i>
+                        <i class="fas fa-plug"></i>
                     </div>
-                    <h3>Content Creation</h3>
+                    <h3>System Integration</h3>
                     <div class="service-summary">
-                        <p>High-quality content creation including blog posts, videos, infographics, and social media content.</p>
+                        <p>Third-party API integration, system connectivity, and seamless data flow between platforms and services.</p>
                     </div>
                     <div class="service-content">
-                        <p>Create compelling content that tells your story and engages your audience across all platforms.</p>
+                        <p>Connect your applications with external services, payment gateways, and third-party APIs for seamless operations.</p>
                         <ul class="service-features">
-                            <li>Blog Writing & Management</li>
-                            <li>Video Production</li>
-                            <li>Graphic Design & Infographics</li>
-                            <li>Social Media Content</li>
-                            <li>Email Newsletter Content</li>
-                            <li>Content Calendar Planning</li>
+                            <li>Payment Gateway Integration</li>
+                            <li>Third-Party API Integration</li>
+                            <li>Webhook Implementation</li>
+                            <li>Legacy System Integration</li>
+                            <li>Data Synchronization</li>
+                            <li>Real-time Communication</li>
                         </ul>
                         <div class="service-cta">
                             <a href="#contact" class="btn">Get Started</a>
@@ -528,21 +542,21 @@
                 <div class="service-card" onclick="toggleService(this)">
                     <button class="expand-btn">+</button>
                     <div class="service-icon gradient-2">
-                        <i class="fas fa-rocket"></i>
+                        <i class="fas fa-cogs"></i>
                     </div>
-                    <h3>Growth Marketing</h3>
+                    <h3>Technical Consulting</h3>
                     <div class="service-summary">
-                        <p>Scalable growth strategies to accelerate your business expansion and increase market share.</p>
+                        <p>Architecture review, technical strategy, code audits, and expert guidance for building scalable systems.</p>
                     </div>
                     <div class="service-content">
-                        <p>Accelerate your business growth with data-driven strategies and proven marketing techniques.</p>
+                        <p>Get expert technical guidance on system architecture, technology stack selection, and best practices.</p>
                         <ul class="service-features">
-                            <li>Growth Strategy Development</li>
-                            <li>Customer Acquisition Campaigns</li>
-                            <li>Conversion Rate Optimization</li>
-                            <li>Retention & Loyalty Programs</li>
-                            <li>Market Expansion Planning</li>
+                            <li>System Architecture Design</li>
+                            <li>Technology Stack Consultation</li>
+                            <li>Code Review & Refactoring</li>
                             <li>Performance Optimization</li>
+                            <li>Scalability Planning</li>
+                            <li>Technical Documentation</li>
                         </ul>
                         <div class="service-cta">
                             <a href="#contact" class="btn">Get Started</a>
@@ -562,9 +576,9 @@
         <div class="container">
             <div class="about-content">
                 <div class="about-text">
-                    <h2 class="apple-text-reveal">About Metal Streets Media</h2>
-                    <p class="apple-text-reveal apple-stagger-1">We are a passionate team of marketing professionals dedicated to helping businesses achieve their growth objectives. With years of experience in digital marketing, brand development, and strategic planning, we deliver results that matter.</p>
-                    <p class="apple-text-reveal apple-stagger-2">Our approach combines creativity with data-driven insights to create marketing campaigns that not only look great but also drive measurable business outcomes.</p>
+                    <h2 class="apple-text-reveal">About Metal Streets</h2>
+                    <p class="apple-text-reveal apple-stagger-1">We are a team of software engineers and technical architects dedicated to building robust, scalable digital solutions. With expertise in full-stack development, mobile application engineering, cloud infrastructure, and system architecture, we deliver production-ready systems that perform reliably at scale.</p>
+                    <p class="apple-text-reveal apple-stagger-2">Our approach combines solid engineering principles with modern technology stacks to create applications and systems that are not only well-architected but also secure, performant, and maintainable for long-term success.</p>
                     <div class="stats">
                         <div class="stat apple-card-reveal apple-stagger-1">
                             <h3>450+</h3>
@@ -583,45 +597,6 @@
                 <div class="about-image">
                     <div class="about-graphic apple-parallax apple-image-reveal">
                         <i class="fas fa-lightbulb"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio">
-        <div class="container">
-            <div class="section-header apple-text-reveal">
-                <h2>Our Work</h2>
-                <p>Discover how we've helped businesses achieve their marketing goals</p>
-            </div>
-            <div class="portfolio-grid">
-                <div class="portfolio-item apple-card-reveal apple-hover-lift apple-stagger-1">
-                    <div class="portfolio-image">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
-                    <div class="portfolio-content">
-                        <h3>E-commerce Growth</h3>
-                        <p>Increased online sales by 300% for a retail client through strategic digital marketing campaigns.</p>
-                    </div>
-                </div>
-                <div class="portfolio-item apple-card-reveal apple-hover-lift apple-stagger-2">
-                    <div class="portfolio-image">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <div class="portfolio-content">
-                        <h3>Brand Transformation</h3>
-                        <p>Complete brand overhaul for a tech startup, resulting in 150% increase in brand recognition.</p>
-                    </div>
-                </div>
-                <div class="portfolio-item apple-card-reveal apple-hover-lift apple-stagger-3">
-                    <div class="portfolio-image">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="portfolio-content">
-                        <h3>Mobile App Launch</h3>
-                        <p>Successful launch campaign for a mobile app, achieving 50,000 downloads in the first month.</p>
                     </div>
                 </div>
             </div>
@@ -658,7 +633,6 @@
                         </div>
                     </div>
                     <div class="project-meta">
-                        <span>Owner: Dron Grover</span>
                         <span class="project-tag">Automotive</span>
                     </div>
                 </article>
@@ -684,7 +658,6 @@
                         </div>
                     </div>
                     <div class="project-meta">
-                        <span>Founder: Kamal Shahani</span>
                         <span class="project-tag">Health EdTech</span>
                     </div>
                 </article>
@@ -738,7 +711,7 @@
                     <div class="calendly-booking-section apple-card-reveal apple-stagger-3">
                         <div class="booking-content">
                             <h3>Prefer to Schedule a Call?</h3>
-                            <p>Book a free consultation to discuss your marketing needs and how we can help grow your business.</p>
+                            <p>Book a free consultation to discuss your technical requirements and how we can help build scalable digital solutions for your business.</p>
                             <a href="https://calendly.com/metalstreetmedia/book-a-meeting-with-metal-streets" target="_blank" rel="noopener noreferrer" class="btn btn-calendly-large">
                                 <i class="fas fa-calendar-check"></i>
                                 <span>Book Free Consultation</span>
@@ -945,40 +918,40 @@
                         <label class="services-label">Select Services Required (Choose Multiple):</label>
                         <div class="services-checkboxes">
                             <div class="checkbox-item">
-                                <input type="checkbox" id="digitalMarketing" name="services" value="Digital Marketing">
-                                <label for="digitalMarketing">Digital Marketing</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="brandStrategy" name="services" value="Brand Strategy">
-                                <label for="brandStrategy">Brand Strategy</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="socialMedia" name="services" value="Social Media Management">
-                                <label for="socialMedia">Social Media Management</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="contentCreation" name="services" value="Content Creation">
-                                <label for="contentCreation">Content Creation</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="analytics" name="services" value="Analytics & Reporting">
-                                <label for="analytics">Analytics & Reporting</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="growthMarketing" name="services" value="Growth Marketing">
-                                <label for="growthMarketing">Growth Marketing</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="websiteCreation" name="services" value="Website Creation">
-                                <label for="websiteCreation">Website Creation</label>
-                            </div>
-                            <div class="checkbox-item">
                                 <input type="checkbox" id="appDevelopment" name="services" value="App Development">
                                 <label for="appDevelopment">App Development</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" id="fullPackage" name="services" value="Full Marketing Package">
-                                <label for="fullPackage">Full Marketing Package</label>
+                                <input type="checkbox" id="webDevelopment" name="services" value="Web Development">
+                                <label for="webDevelopment">Web Development</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="backendDevelopment" name="services" value="Backend Development">
+                                <label for="backendDevelopment">Backend Development</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="cloudDevOps" name="services" value="Cloud Infrastructure & DevOps">
+                                <label for="cloudDevOps">Cloud Infrastructure & DevOps</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="databaseManagement" name="services" value="Database Design & Management">
+                                <label for="databaseManagement">Database Design & Management</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="securityCompliance" name="services" value="Security & Compliance">
+                                <label for="securityCompliance">Security & Compliance</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="systemIntegration" name="services" value="System Integration">
+                                <label for="systemIntegration">System Integration</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="technicalConsulting" name="services" value="Technical Consulting">
+                                <label for="technicalConsulting">Technical Consulting</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="fullPackage" name="services" value="Full Development Package">
+                                <label for="fullPackage">Full Development Package</label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" id="other" name="services" value="Other">
@@ -1012,7 +985,6 @@
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="#about">About Us</a></li>
-                        <li><a href="#portfolio">Portfolio</a></li>
                         <li><a href="#contact">Contact</a></li>
                         <li><a href="#services">Our Services</a></li>
                     </ul>

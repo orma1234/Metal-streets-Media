@@ -472,6 +472,21 @@ body {
     margin: -2rem 0 -1rem 0;
 }
 
+/* Cover layer that hides iOS play icon; we fade it out once video is actually playing */
+.hero-video-cover {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    /* Use custom hero start frame image to cover the video (hides iOS play button) */
+    background: url("Assets/metal street video start .png") center center / cover no-repeat #000;
+    transition: opacity 0.6s ease;
+}
+
+.hero-logo-container.playing .hero-video-cover {
+    opacity: 0;
+}
+
 .hero-logo-container::before {
     display: none;
 }
@@ -485,6 +500,14 @@ body {
     border-radius: 12px;
     display: block;
     margin: 0;
+    /* Prevent tap from showing native play/pause overlay, especially on mobile */
+    pointer-events: none;
+}
+
+/* Hide the big native play overlay on many mobile/WebKit browsers */
+.hero-logo-main::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none;
 }
 
 .hero-logo-fallback-main {
@@ -740,12 +763,12 @@ body {
 
 /* Expanded state */
 .service-card.expanded {
-    grid-column: span 2;
-    grid-row: span 2;
-    min-height: 400px;
+    grid-column: 1 / -1;
+    min-height: auto;
     z-index: 10;
     transform: translateY(-8px);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    margin-bottom: 2rem;
 }
 
 .service-card.expanded .service-content {
@@ -949,10 +972,10 @@ body {
 
 /* Glowing border for services section header */
 .services .section-header {
-    border: 2px solid var(--accent-secondary);
-    box-shadow: 0 0 20px rgba(118, 75, 162, 0.5), 
-                0 0 40px rgba(118, 75, 162, 0.3),
-                0 0 60px rgba(118, 75, 162, 0.1);
+    border: 2px solid #FFD700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 
+                0 0 40px rgba(255, 215, 0, 0.3),
+                0 0 60px rgba(255, 215, 0, 0.1);
     animation: glowPulseServices 2s ease-in-out infinite alternate;
 }
 
@@ -1016,14 +1039,14 @@ body {
 
 @keyframes glowPulseServices {
     0% {
-        box-shadow: 0 0 15px rgba(118, 75, 162, 0.3), 
-                    0 0 30px rgba(118, 75, 162, 0.2),
-                    0 0 45px rgba(118, 75, 162, 0.1);
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.3), 
+                    0 0 30px rgba(255, 215, 0, 0.2),
+                    0 0 45px rgba(255, 215, 0, 0.1);
     }
     100% {
-        box-shadow: 0 0 40px rgba(118, 75, 162, 1.0), 
-                    0 0 70px rgba(118, 75, 162, 0.8),
-                    0 0 100px rgba(118, 75, 162, 0.4);
+        box-shadow: 0 0 40px rgba(255, 215, 0, 1.0), 
+                    0 0 70px rgba(255, 215, 0, 0.8),
+                    0 0 100px rgba(255, 215, 0, 0.4);
     }
 }
 
@@ -2533,13 +2556,17 @@ body {
     }
     
     .service-card.expanded {
-        grid-column: span 2;
-        grid-row: span 2;
+        grid-column: 1 / -1;
     }
 }
 
 /* Mobile Styles */
 @media (max-width: 768px) {
+    /* Offset content so it doesn't sit underneath the fixed navbar */
+    body {
+        padding-top: 70px;
+    }
+
     .nav-menu {
         position: fixed;
         left: -100%;
@@ -2621,7 +2648,8 @@ body {
         position: absolute;
         left: 0;
         right: 0;
-        top: 0;
+        /* Start the video just below the navbar */
+        top: 70px;
     }
     
     .hero-container {
@@ -2669,9 +2697,8 @@ body {
     }
     
     .service-card.expanded {
-        grid-column: span 2;
-        grid-row: span 1;
-        min-height: 350px;
+        grid-column: 1 / -1;
+        min-height: auto;
     }
     
     .service-icon {

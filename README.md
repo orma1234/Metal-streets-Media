@@ -1,4 +1,4 @@
-# Metal Streets Media - Marketing Business Website
+# Metal Streets - Where Creativity Meets Code
 
 A modern, responsive website for marketing businesses built with HTML, CSS, and JavaScript. Features a professional design with smooth animations, mobile-first approach, and comprehensive functionality.
 
@@ -177,7 +177,7 @@ This website template is created for marketing business use. Feel free to custom
 
 ---
 
-**Metal Streets Media** - Strategic Marketing Solutions
+**Metal Streets** - Where Creativity Meets Code
 *Transform your business with professional marketing services*
 
 

@@ -543,3 +543,45 @@ class ParticleSystem {
 document.addEventListener('DOMContentLoaded', () => {
     new ParticleSystem();
 });
+
+// Hero video autoplay helper (especially for mobile)
+document.addEventListener('DOMContentLoaded', () => {
+    const heroVideo = document.getElementById('heroVideo');
+    if (!heroVideo) return;
+
+    const heroContainer = heroVideo.closest('.hero-logo-container');
+
+    // Try to play as soon as DOM is ready
+    const tryPlay = () => {
+        heroVideo.muted = true; // ensure muted for mobile autoplay policies
+        const playPromise = heroVideo.play();
+        if (playPromise && typeof playPromise.then === 'function') {
+            playPromise
+                .then(() => {
+                    // Mark container as playing so we can fade out the cover
+                    if (heroContainer) {
+                        heroContainer.classList.add('playing');
+                    }
+                })
+                .catch((err) => {
+                    console.warn('Autoplay blocked, will retry on first user interaction.', err);
+                });
+        } else {
+            // No promise support; assume playing
+            if (heroContainer) {
+                heroContainer.classList.add('playing');
+            }
+        }
+    };
+
+    // Initial attempt
+    tryPlay();
+
+    // Fallback: retry on first user interaction (tap/scroll)
+    const unlockEvents = ['touchstart', 'click', 'scroll'];
+    const unlockHandler = () => {
+        tryPlay();
+        unlockEvents.forEach(evt => window.removeEventListener(evt, unlockHandler));
+    };
+    unlockEvents.forEach(evt => window.addEventListener(evt, unlockHandler, { once: true }));
+});
