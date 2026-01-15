@@ -542,7 +542,204 @@ class ParticleSystem {
 // Initialize particle system when page loads
 document.addEventListener('DOMContentLoaded', () => {
     new ParticleSystem();
+    
+    // Initialize projects slider
+    initProjectsSlider();
+    
+    // Initialize image lightbox
+    initImageLightbox();
 });
+
+// Projects Slider Functionality
+function initProjectsSlider() {
+    const sliderWrapper = document.querySelector('.projects-slider-wrapper');
+    const sliderGrid = document.querySelector('.projects-grid');
+    const prevBtn = document.querySelector('.slider-btn-prev');
+    const nextBtn = document.querySelector('.slider-btn-next');
+    const dotsContainer = document.querySelector('.slider-dots');
+    
+    if (!sliderWrapper || !sliderGrid || !prevBtn || !nextBtn) return;
+    
+    const cards = sliderGrid.querySelectorAll('.project-card');
+    if (cards.length === 0) return;
+    
+    // Calculate items per view based on screen size
+    function getItemsPerView() {
+        if (window.innerWidth <= 768) return 1;
+        if (window.innerWidth <= 1024) return 2;
+        return 3;
+    }
+    
+    let currentIndex = 0;
+    let itemsPerView = getItemsPerView();
+    const totalItems = cards.length;
+    const totalSlides = Math.max(1, Math.ceil(totalItems / itemsPerView));
+    
+    // Create dots
+    function createDots() {
+        if (!dotsContainer) return;
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+            dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+    }
+    
+    // Update slider position
+    function updateSlider() {
+        // Get the wrapper width (visible area)
+        const wrapperWidth = sliderWrapper.offsetWidth;
+        
+        // Calculate slide width: wrapper width (shows itemsPerView cards)
+        const slideWidth = wrapperWidth;
+        
+        // Calculate translateX based on current index
+        const translateX = -(currentIndex * slideWidth);
+        sliderGrid.style.transform = `translateX(${translateX}px)`;
+        
+        // Update dots
+        if (dotsContainer) {
+            const dots = dotsContainer.querySelectorAll('.slider-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+        
+        // Update button states
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex >= totalSlides - 1;
+    }
+    
+    // Go to specific slide
+    function goToSlide(index) {
+        currentIndex = Math.max(0, Math.min(index, totalSlides - 1));
+        updateSlider();
+    }
+    
+    // Next slide
+    function nextSlide() {
+        if (currentIndex < totalSlides - 1) {
+            currentIndex++;
+            updateSlider();
+        }
+    }
+    
+    // Previous slide
+    function prevSlide() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateSlider();
+        }
+    }
+    
+    // Event listeners
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+    
+    // Handle window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            const newItemsPerView = getItemsPerView();
+            if (newItemsPerView !== itemsPerView) {
+                itemsPerView = newItemsPerView;
+                const newTotalSlides = Math.max(1, Math.ceil(totalItems / itemsPerView));
+                currentIndex = Math.min(currentIndex, newTotalSlides - 1);
+                createDots();
+                updateSlider();
+            } else {
+                updateSlider();
+            }
+        }, 250);
+    });
+    
+    // Touch/swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    sliderWrapper.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    sliderWrapper.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        }
+    }
+    
+    // Initialize
+    createDots();
+    updateSlider();
+    
+    // Recalculate on load to ensure proper sizing
+    setTimeout(updateSlider, 100);
+}
+
+// Image Lightbox Functionality
+function initImageLightbox() {
+    const lightbox = document.getElementById('imageLightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const closeBtn = document.querySelector('.lightbox-close');
+    const images = document.querySelectorAll('.testimonial-image');
+    
+    if (!lightbox || !lightboxImage) return;
+    
+    // Open lightbox when image is clicked
+    images.forEach(image => {
+        image.addEventListener('click', () => {
+            const src = image.getAttribute('src');
+            const alt = image.getAttribute('alt');
+            
+            lightboxImage.src = src;
+            lightboxImage.alt = alt;
+            
+            lightbox.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+    
+    // Close lightbox
+    function closeLightbox() {
+        lightbox.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+    
+    // Close on close button click
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeLightbox);
+    }
+    
+    // Close on background click
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+    
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('show')) {
+            closeLightbox();
+        }
+    });
+}
 
 // Hero video autoplay helper (especially for mobile)
 document.addEventListener('DOMContentLoaded', () => {
