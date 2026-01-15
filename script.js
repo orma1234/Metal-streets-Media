@@ -550,159 +550,25 @@ document.addEventListener('DOMContentLoaded', () => {
     initImageLightbox();
 });
 
-// Projects Slider Functionality
+// Slider initialization is now handled in initProjectsSlider()
+
+// Projects Grid - No slider needed, just ensure visibility
 function initProjectsSlider() {
-    const sliderWrapper = document.querySelector('.projects-slider-wrapper');
-    const sliderGrid = document.querySelector('.projects-grid');
-    const prevBtn = document.querySelector('.slider-btn-prev');
-    const nextBtn = document.querySelector('.slider-btn-next');
-    const dotsContainer = document.querySelector('.slider-dots');
+    const projectsGrid = document.querySelector('.projects-grid');
     
-    if (!sliderWrapper || !sliderGrid || !prevBtn || !nextBtn) return;
+    if (!projectsGrid) return;
     
-    const cards = sliderGrid.querySelectorAll('.project-card');
-    if (cards.length === 0) return;
+    // Ensure grid is visible
+    projectsGrid.style.display = 'grid';
+    projectsGrid.style.visibility = 'visible';
+    projectsGrid.style.opacity = '1';
     
-    // Calculate items per view based on screen size
-    function getItemsPerView() {
-        if (window.innerWidth <= 768) return 1;
-        if (window.innerWidth <= 1024) return 2;
-        return 3;
-    }
-    
-    let currentIndex = 0;
-    let itemsPerView = getItemsPerView();
-    const totalItems = cards.length;
-    const totalSlides = Math.max(1, Math.ceil(totalItems / itemsPerView));
-    
-    // Create dots
-    function createDots() {
-        if (!dotsContainer) return;
-        dotsContainer.innerHTML = '';
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('button');
-            dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-            dot.addEventListener('click', () => goToSlide(i));
-            dotsContainer.appendChild(dot);
-        }
-    }
-    
-    // Update slider position
-    function updateSlider() {
-        // Get the wrapper width (visible area)
-        const wrapperWidth = sliderWrapper.offsetWidth || sliderWrapper.clientWidth;
-        
-        // Calculate slide width based on items per view
-        // On mobile (itemsPerView = 1), slideWidth = wrapperWidth
-        // On tablet (itemsPerView = 2), slideWidth = wrapperWidth / 2
-        // On desktop (itemsPerView = 3), slideWidth = wrapperWidth / 3
-        const slideWidth = wrapperWidth / itemsPerView;
-        
-        // Calculate translateX based on current index
-        const translateX = -(currentIndex * slideWidth);
-        sliderGrid.style.transform = `translateX(${translateX}px)`;
-        sliderGrid.style.display = 'flex'; // Ensure grid is displayed
-        sliderGrid.style.visibility = 'visible'; // Ensure grid is visible
-        
-        // Update dots
-        if (dotsContainer) {
-            const dots = dotsContainer.querySelectorAll('.slider-dot');
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentIndex);
-            });
-        }
-        
-        // Update button states
-        prevBtn.disabled = currentIndex === 0;
-        nextBtn.disabled = currentIndex >= totalSlides - 1;
-    }
-    
-    // Go to specific slide
-    function goToSlide(index) {
-        currentIndex = Math.max(0, Math.min(index, totalSlides - 1));
-        updateSlider();
-    }
-    
-    // Next slide
-    function nextSlide() {
-        if (currentIndex < totalSlides - 1) {
-            currentIndex++;
-            updateSlider();
-        }
-    }
-    
-    // Previous slide
-    function prevSlide() {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateSlider();
-        }
-    }
-    
-    // Event listeners
-    nextBtn.addEventListener('click', nextSlide);
-    prevBtn.addEventListener('click', prevSlide);
-    
-    // Handle window resize
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            const newItemsPerView = getItemsPerView();
-            if (newItemsPerView !== itemsPerView) {
-                itemsPerView = newItemsPerView;
-                const newTotalSlides = Math.max(1, Math.ceil(totalItems / itemsPerView));
-                currentIndex = Math.min(currentIndex, newTotalSlides - 1);
-                createDots();
-                updateSlider();
-            } else {
-                updateSlider();
-            }
-        }, 250);
-    });
-    
-    // Touch/swipe support for mobile
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    sliderWrapper.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-    
-    sliderWrapper.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
-    
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        const diff = touchStartX - touchEndX;
-        
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                nextSlide();
-            } else {
-                prevSlide();
-            }
-        }
-    }
-    
-    // Initialize
-    createDots();
-    
-    // Initial update - reset to first slide
-    currentIndex = 0;
-    updateSlider();
-    
-    // Recalculate on load to ensure proper sizing (multiple attempts for mobile)
-    setTimeout(updateSlider, 100);
-    setTimeout(updateSlider, 300);
-    setTimeout(updateSlider, 500);
-    
-    // Also recalculate after images load (in case images affect layout)
-    window.addEventListener('load', () => {
-        setTimeout(updateSlider, 100);
+    // Ensure all cards are visible
+    const cards = projectsGrid.querySelectorAll('.project-card');
+    cards.forEach(card => {
+        card.style.display = 'flex';
+        card.style.visibility = 'visible';
+        card.style.opacity = '1';
     });
 }
 
