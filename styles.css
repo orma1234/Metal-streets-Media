@@ -2231,20 +2231,65 @@ body {
 
 @media (max-width: 768px) {
     .projects-showcase {
-        padding: 80px 0;
+        padding: 60px 0;
+    }
+    
+    .projects-showcase .section-header {
+        margin-bottom: 40px;
+        padding: 1.5rem 1rem;
+    }
+    
+    .projects-showcase .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .projects-showcase .section-header p {
+        font-size: 1rem;
     }
     
     .projects-slider-container {
-        padding: 0 45px;
+        padding: 0 15px;
+        margin: 0 auto;
+        max-width: 100%;
+        position: relative;
+        display: block !important;
+        visibility: visible !important;
+    }
+    
+    .projects-slider-wrapper {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        display: block !important;
+        visibility: visible !important;
+        min-height: 400px;
     }
     
     .projects-grid {
-        gap: 16px;
+        gap: 0;
+        padding: 0;
+        width: max-content;
+        display: flex !important;
+        flex-wrap: nowrap;
+        visibility: visible !important;
     }
     
     .projects-grid .project-card {
         flex: 0 0 100%;
+        min-width: 100%;
         max-width: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 20px 16px;
+        box-sizing: border-box;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    /* Ensure wrapper shows content */
+    .projects-slider-wrapper {
+        min-height: 400px;
     }
     
     .slider-btn-prev {
@@ -2256,9 +2301,42 @@ body {
     }
     
     .slider-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 0.9rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        z-index: 15;
+        background: rgba(102, 126, 234, 0.9);
+        backdrop-filter: blur(10px);
+    }
+    
+    .project-card {
+        padding: 20px 16px;
+        background: var(--bg-secondary) !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        display: flex !important;
+    }
+    
+    .project-card h3 {
+        font-size: 18px;
+        color: var(--text-primary) !important;
+    }
+    
+    .project-card p {
+        font-size: 14px;
+        color: var(--text-secondary) !important;
+    }
+    
+    .project-highlights li {
+        font-size: 13px;
+        color: var(--text-secondary) !important;
+    }
+    
+    .project-badge,
+    .project-icon,
+    .project-testimonials,
+    .project-meta {
+        display: block !important;
+        visibility: visible !important;
     }
     
     .project-gallery {
@@ -2271,11 +2349,11 @@ body {
     
     .testimonials-gallery {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 12px;
     }
     
     .testimonial-image {
-        max-height: 300px;
+        max-height: 250px;
         object-fit: contain;
     }
 }
@@ -3025,6 +3103,12 @@ body {
 
     .container {
         padding: 0 1rem;
+    }
+    
+    /* Ensure projects showcase container has proper padding on mobile */
+    .projects-showcase .container {
+        padding: 0 1rem;
+        overflow-x: visible;
     }
 
     .section {

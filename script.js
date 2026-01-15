@@ -591,14 +591,19 @@ function initProjectsSlider() {
     // Update slider position
     function updateSlider() {
         // Get the wrapper width (visible area)
-        const wrapperWidth = sliderWrapper.offsetWidth;
+        const wrapperWidth = sliderWrapper.offsetWidth || sliderWrapper.clientWidth;
         
-        // Calculate slide width: wrapper width (shows itemsPerView cards)
-        const slideWidth = wrapperWidth;
+        // Calculate slide width based on items per view
+        // On mobile (itemsPerView = 1), slideWidth = wrapperWidth
+        // On tablet (itemsPerView = 2), slideWidth = wrapperWidth / 2
+        // On desktop (itemsPerView = 3), slideWidth = wrapperWidth / 3
+        const slideWidth = wrapperWidth / itemsPerView;
         
         // Calculate translateX based on current index
         const translateX = -(currentIndex * slideWidth);
         sliderGrid.style.transform = `translateX(${translateX}px)`;
+        sliderGrid.style.display = 'flex'; // Ensure grid is displayed
+        sliderGrid.style.visibility = 'visible'; // Ensure grid is visible
         
         // Update dots
         if (dotsContainer) {
@@ -685,10 +690,20 @@ function initProjectsSlider() {
     
     // Initialize
     createDots();
+    
+    // Initial update - reset to first slide
+    currentIndex = 0;
     updateSlider();
     
-    // Recalculate on load to ensure proper sizing
+    // Recalculate on load to ensure proper sizing (multiple attempts for mobile)
     setTimeout(updateSlider, 100);
+    setTimeout(updateSlider, 300);
+    setTimeout(updateSlider, 500);
+    
+    // Also recalculate after images load (in case images affect layout)
+    window.addEventListener('load', () => {
+        setTimeout(updateSlider, 100);
+    });
 }
 
 // Image Lightbox Functionality
